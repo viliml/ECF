@@ -74,13 +74,13 @@ float eval(int tt[], int nVariables, int varijanta, int *stop)
 	4. algebarski imunitet - najmanja vrijednost d za koju tablica istinitosti ima ne-nula anhilator stupnja d
 	5. nelinearnost - najmanja Hammingova udaljenost izmedu funkcije i najbolje afine aproksimacije funkcije
 
-	za sva gore navedena svojstva, što veci broj to je i svojstvo bolje, jedino balansiranost je 1 ako je f balansirana, inace je kazna obrnuto proporcionalna broju varijabli
+	za sva gore navedena svojstva, ï¿½to veci broj to je i svojstvo bolje, jedino balansiranost je 1 ako je f balansirana, inace je kazna obrnuto proporcionalna broju varijabli
 
-	6. autokorelacija spektar - što manja, to bolje
-	7. karakteristika propagacije - funkcija zadovoljava karakteristiku propagacije stupnja t ako su sve derivacije vektora koje imaju Hammingovu tezinu manju od t balansirane, što vece, to bolje
-	8. suma kvadrata indikator (služi za GAC) - što manji to bolje, da promjena jednog bita na ulazu utjece na što više bita na izlazu
-	9. AC -  udaljenost izmedu Booleove funkcije i skupa funkcija sa linearnom strukturom (služi za GAC) - što manji, to bolje
-	10. Walshov spektar - što su vrijednosti uniformnije, to je nelinearnost veca, najveca je kada je svaki clan jednak 2^(n/2) - Parsevalova jednadžba
+	6. autokorelacija spektar - ï¿½to manja, to bolje
+	7. karakteristika propagacije - funkcija zadovoljava karakteristiku propagacije stupnja t ako su sve derivacije vektora koje imaju Hammingovu tezinu manju od t balansirane, ï¿½to vece, to bolje
+	8. suma kvadrata indikator (sluï¿½i za GAC) - ï¿½to manji to bolje, da promjena jednog bita na ulazu utjece na ï¿½to viï¿½e bita na izlazu
+	9. AC -  udaljenost izmedu Booleove funkcije i skupa funkcija sa linearnom strukturom (sluï¿½i za GAC) - ï¿½to manji, to bolje
+	10. Walshov spektar - ï¿½to su vrijednosti uniformnije, to je nelinearnost veca, najveca je kada je svaki clan jednak 2^(n/2) - Parsevalova jednadï¿½ba
 
 	*/
 
@@ -144,7 +144,7 @@ float eval(int tt[], int nVariables, int varijanta, int *stop)
 	}
 
 
-	//cetvrti set eksperimenata - nešto kao meta-EA
+	//cetvrti set eksperimenata - neï¿½to kao meta-EA
 
 	//fitness1 = balans(tt,nVariables) + wt_spektar(tt, nVariables) + autokorelacija_rf(tt, nVariables);
 
@@ -158,7 +158,7 @@ float eval(int tt[], int nVariables, int varijanta, int *stop)
 	//fitness =  balans(tt,nVariables) + anf_ai_deg (tt, nVariables) + wt_nl_ci_spektar (tt, nVariables) + autokorelacija_rf_pc_max(tt, nVariables);	// sve zivo, sada i sa Walshovim spektrom
 
 
-	//da li imati primjer gdje je neka težinska funkcija?
+	//da li imati primjer gdje je neka teï¿½inska funkcija?
 
 	//autokorelacija(tt, nVariables);
 
@@ -184,14 +184,14 @@ int balans (int *tt, int n)
    }
    if (rez == ((1<<n)/2))
 	   return 1; //za balansiranu TT dajemo malu nagradu jer se podrazumijeva da Booleova funkcija mora biti balansirana
-   else if (rez < ((1<<n)/2)) // nula je manje od pola, što znaci da je jedinica više od pola
+   else if (rez < ((1<<n)/2)) // nula je manje od pola, ï¿½to znaci da je jedinica viï¿½e od pola
 	{	if(rez == 0)
 			rez = 1;
 		//return (((1<<n)-rez)/rez)*(-5);
 		// za fit3:
 		return (((1<<n)-rez)/(1.*rez))*(-50);
 	}
-   else if (rez > ((1<<n)/2)) // nula je više od pola, što znaci da je jedinica manje od pola
+   else if (rez > ((1<<n)/2)) // nula je viï¿½e od pola, ï¿½to znaci da je jedinica manje od pola
 	{	if(rez == (1 << n))
 			rez = (1 << n) - 1;
 	   //return (rez/((1<<n)-rez))*(-5);
@@ -400,7 +400,7 @@ void wt (int *tt, int n)
                 b = rez[t2];
                 rez[t1] = a + b;
                 rez[t2] = a - b;
-				//za racunanje nelinearnosti da ne moram poslije opet tražiti max vrijednost
+				//za racunanje nelinearnosti da ne moram poslije opet traï¿½iti max vrijednost
 				if (abs(rez[t1]) > max)
 					max = abs(rez[t1]);
 			    if (abs(rez[t2]) > max)
@@ -445,7 +445,7 @@ int wt_nl (int *tt, int n) //ovdje dobijam nelinearnost
                 b = rez[t2];
                 rez[t1] = a + b;
                 rez[t2] = a - b;
-				//za racunanje nelinearnosti da ne moram poslije opet tražiti max vrijednost
+				//za racunanje nelinearnosti da ne moram poslije opet traï¿½iti max vrijednost
 				if (abs(rez[t1]) > max)
 					max = abs(rez[t1]);
 			    if (abs(rez[t2]) > max)
@@ -484,7 +484,7 @@ int wt_nl_ci (int *tt, int n) //ovdje dobijam nelinearnost i korelacijski imunit
                 b = rez[t2];
                 rez[t1] = a + b;
                 rez[t2] = a - b;
-				//za racunanje nelinearnosti da ne moram poslije opet tražiti max vrijednost
+				//za racunanje nelinearnosti da ne moram poslije opet traï¿½iti max vrijednost
 				if (abs(rez[t1]) > max)
 					max = abs(rez[t1]);
 			    if (abs(rez[t2]) > max)
@@ -527,7 +527,7 @@ int wt_spektar (int *tt, int n) //ovdje dobijam Walsh spektar
                 b = rez[t2];
                 rez[t1] = a + b;
                 rez[t2] = a - b;
-				//za racunanje nelinearnosti da ne moram poslije opet tražiti max vrijednost
+				//za racunanje nelinearnosti da ne moram poslije opet traï¿½iti max vrijednost
 				if (abs(rez[t1]) > max)
 					max = abs(rez[t1]);
 			    if (abs(rez[t2]) > max)
@@ -570,7 +570,7 @@ int wt_nl_ci_spektar (int *tt, int n) //ovdje dobijam nelinearnost, korelacijski
                 b = rez[t2];
                 rez[t1] = a + b;
                 rez[t2] = a - b;
-				//za racunanje nelinearnosti da ne moram poslije opet tražiti max vrijednost
+				//za racunanje nelinearnosti da ne moram poslije opet traï¿½iti max vrijednost
 				if (abs(rez[t1]) > max)
 					max = abs(rez[t1]);
 			    if (abs(rez[t2]) > max)
@@ -634,7 +634,7 @@ int korelacijskiImunitet (int *wh, int n)
 		}
 		red++;
 	} while (red <= n);
-	return red-2;//ne znam zašto
+	return red-2;//ne znam zaï¿½to
 }
 
 int hammingWeight(int x)
@@ -786,7 +786,7 @@ int autokorelacija_rf_pc_max (int *tt, int n) //autokorelacija ne odreduje jedin
 	return PC+autokor+sumaKvadrata;
 }
 
-int karakteristikaPropagacije (int *ac, int n) //što vece to bolje
+int karakteristikaPropagacije (int *ac, int n) //ï¿½to vece to bolje
 {
 	int i, red = 1;
 	do //vrti po redu (stupnju) autokorelacije
@@ -801,10 +801,10 @@ int karakteristikaPropagacije (int *ac, int n) //što vece to bolje
 		}
 		red++;
 	} while (red <= n);
-	return red-2;//ne znam zašto
+	return red-2;//ne znam zaï¿½to
 }
 
-int AC (int *ac, int n) //što manje to bolje, pa na kraju dijelimo s -n/2 jer u biti ovo djeluje kao kazna (faktor je 4 jer inace ima previše utjecaja), min moguca vrijednost je 16 a ide lako na preko 100, vidjeti cemo da li cemo morati još ovo modificirati
+int AC (int *ac, int n) //ï¿½to manje to bolje, pa na kraju dijelimo s -n/2 jer u biti ovo djeluje kao kazna (faktor je 4 jer inace ima previï¿½e utjecaja), min moguca vrijednost je 16 a ide lako na preko 100, vidjeti cemo da li cemo morati joï¿½ ovo modificirati
 {
 	int i, max = 0;
 	int tmp = 0;
@@ -817,7 +817,7 @@ int AC (int *ac, int n) //što manje to bolje, pa na kraju dijelimo s -n/2 jer u 
 	return max/(-tmp);
 }
 
-int sumaKvadrataIndikator (int *ac, int n) //što manje to bolje, pa na kraju množimo s -1 jer u biti ovo djeluje kao kazna, takoder smanjujem vrijednost dane bude predominantna
+int sumaKvadrataIndikator (int *ac, int n) //ï¿½to manje to bolje, pa na kraju mnoï¿½imo s -1 jer u biti ovo djeluje kao kazna, takoder smanjujem vrijednost dane bude predominantna
 {
 	int i, suma = 0;
 	for (i=0; i < (1<<n); i++)
@@ -828,7 +828,7 @@ int sumaKvadrataIndikator (int *ac, int n) //što manje to bolje, pa na kraju mno
 	return suma*(-1);
 }
 
-int walshSpectrum2(int *walsh, int n)  //funkcija racuna float ali vracam int jer ne znam što bih radio s decimalnim dijelom, što manje to bolje
+int walshSpectrum2(int *walsh, int n)  //funkcija racuna float ali vracam int jer ne znam ï¿½to bih radio s decimalnim dijelom, ï¿½to manje to bolje
 {
 	int i;
 	double rez = 0;
@@ -1080,7 +1080,7 @@ int algebarskiImunitet(int *tt, int n)
 }
 
 //ove se funkcije ne koriste
-int autocorrelationSpectrum (int *ac, int n) //ova se mjera cini previše eksperimentalna pa ju necemo koristiti, koristimo sumaKvadrataIndikator
+int autocorrelationSpectrum (int *ac, int n) //ova se mjera cini previï¿½e eksperimentalna pa ju necemo koristiti, koristimo sumaKvadrataIndikator
 {
 	int i, rez = 0, x, r;
 	x = -2;
@@ -1093,7 +1093,7 @@ int autocorrelationSpectrum (int *ac, int n) //ova se mjera cini previše eksperi
 	return rez;
 }
 
-int walshSpectrum(int *walsh, int n)  //ova se mjera cini previše eksperimentalna pa ju necemo koristiti, koristimo walshSpectrum2
+int walshSpectrum(int *walsh, int n)  //ova se mjera cini previï¿½e eksperimentalna pa ju necemo koristiti, koristimo walshSpectrum2
 {
 	int i, rez = 0, x, r;
 	x = 8;

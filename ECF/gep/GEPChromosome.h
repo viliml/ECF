@@ -2,7 +2,7 @@
 #define GEPCHROMOSOME_H
 
 #include "../ECF.h"
-#include "../Tree/Tree.h"
+#include "../tree/Tree.h"
 #include "GEPChromosomeCrsOnePoint.h"
 #include "GEPChromosomeCrsTwoPoint.h"
 #include "GEPChromosomeCrsGene.h"
@@ -49,25 +49,25 @@ namespace GEP{
 		Tree::PrimitiveSetP ercSet_; // contains only the ERC ranges
 		bool usesERC; ///< whether or not the chromosome uses random constants
 		bool staticLink; ///< whether we are using a static linking function or if it should be allowed to evolve
-		Tree::Tree *cellTree;
-		std::vector<Tree::Tree*> subtrees;
+		TreeP cellTree;
+		std::vector<TreeP> subtrees;
 
 		GEPChromosome();
-		GEPChromosome* copy();
-		std::vector<CrossoverOpP> getCrossoverOp();
-		std::vector<MutationOpP> getMutationOp();
-		void registerParameters(StateP state);
-		bool initialize(StateP state);
+		GenotypeP copy() override;
+		std::vector<CrossoverOpP> getCrossoverOp() override;
+		std::vector<MutationOpP> getMutationOp() override;
+		void registerParameters(StateP state) override;
+		bool initialize(StateP state) override;
 		void initializeFirst(GEPChromosome* home);
-		void write(XMLNode &xGEPChromosome);
-		void read(XMLNode& xGEPChromosomeInd);
+		void write(XMLNode &xGEPChromosome) override;
+		void read(XMLNode& xGEPChromosomeInd) override;
 		void execute(void*);
-		Tree::Tree* toTree(uint gene); 
-		Tree::Tree* makeCellTree();
+		TreeP toTree(uint gene);
+		TreeP makeCellTree();
 		void assemble();
 		void generateChromosome();
-		void setTerminalValue(std::string name, void* value);
+		void setTerminalValue(const std::string &name, void* value);
 	};
 }
-typedef boost::shared_ptr<GEP::GEPChromosome> GEPChromosomeP;
+typedef std::shared_ptr<GEP::GEPChromosome> GEPChromosomeP;
 #endif // GEPChromosome_h

@@ -20,13 +20,13 @@ bool BinaryCrsShuffle::initialize(StateP state)
 	
 bool BinaryCrsShuffle::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-	Binary* p1 = (Binary*) (gen1.get());
-	Binary* p2 = (Binary*) (gen2.get());
-	Binary* ch = (Binary*) (child.get());
+    auto p1 = std::static_pointer_cast<Binary>(gen1);
+    auto p2 = std::static_pointer_cast<Binary>(gen2);
+    auto ch = std::static_pointer_cast<Binary>(child);
 
-	Binary* p1copy = (Binary*) (gen1->copy());
-	Binary* p2copy = (Binary*) (gen2->copy());
-	Binary* chcopy = (Binary*) (child->copy());
+	auto p1copy = std::static_pointer_cast<Binary>(p1->copy());
+	auto p2copy = std::static_pointer_cast<Binary>(gen2->copy());
+	auto chcopy = std::static_pointer_cast<Binary>(child->copy());
 
 	//uint rand1, rand2;
 	//bool temp;
@@ -80,10 +80,6 @@ bool BinaryCrsShuffle::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 
 	// update real domain representation
 	ch->update();
-
-	delete p1copy;
-	delete p2copy;
-	delete chcopy;
 
 	return true;
 }

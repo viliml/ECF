@@ -16,9 +16,9 @@ namespace GEP{
 
 	bool GEPChromosomeCrsGene::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child){
 		// get the genotype from the parents and child
-		GEPChromosome* p1 = (GEPChromosome*)(gen1.get());
-		GEPChromosome* p2 = (GEPChromosome*)(gen2.get());
-		GEPChromosome* ch = (GEPChromosome*)(child.get());
+		GEPChromosomeP p1 = std::static_pointer_cast<GEPChromosome>(gen1);
+		GEPChromosomeP p2 = std::static_pointer_cast<GEPChromosome>(gen2);
+		GEPChromosomeP ch = std::static_pointer_cast<GEPChromosome>(child);
 		// test whether gene crossover is viable (i.e., there is more than one gene)
 		if (p1->genes < 2){
 			ECF_LOG(state_, 5, "Gene crossover failed: chromosome consists of fewer than 2 genes");

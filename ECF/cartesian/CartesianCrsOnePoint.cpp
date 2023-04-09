@@ -21,9 +21,9 @@ bool CartesianCrsOnePoint::initialize(StateP state)
 
 bool CartesianCrsOnePoint::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-	Cartesian* p1 = (Cartesian*) (gen1.get());
-	Cartesian* p2 = (Cartesian*) (gen2.get());
-	Cartesian* ch = (Cartesian*) (child.get());
+	CartesianP p1 = std::static_pointer_cast<Cartesian>(gen1);
+	CartesianP p2 = std::static_pointer_cast<Cartesian>(gen2);
+	CartesianP ch = std::static_pointer_cast<Cartesian>(child);
 
 	//crossing point is any integer value in parents
 	int crsPoint = state_->getRandomizer()->getRandomInteger(p1->size());

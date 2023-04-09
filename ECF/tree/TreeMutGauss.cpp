@@ -28,7 +28,7 @@ bool TreeMutGauss::initialize(StateP state)
 
 bool TreeMutGauss::mutate(GenotypeP gene)
 {
-	Tree* tree = (Tree*) (gene.get());
+	TreeP tree = std::static_pointer_cast<Tree>(gene);
 	
 	// try to select ERC node of type double
 	uint iNode;

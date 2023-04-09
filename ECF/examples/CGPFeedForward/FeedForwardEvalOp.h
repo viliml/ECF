@@ -33,8 +33,8 @@ protected:
 //TODO: implementirati evaluaciju i za bool vrijednosti
 typedef FeedForwardEvalOp<double> FeedForwardEvalOpDouble;
 typedef FeedForwardEvalOp<int> FeedForwardEvalOpInt;
-typedef boost::shared_ptr<FeedForwardEvalOpDouble> FeedForwardEvalOpDoubleP;
-typedef boost::shared_ptr<FeedForwardEvalOpInt> FeedForwardEvalOpIntP;
+typedef std::shared_ptr<FeedForwardEvalOpDouble> FeedForwardEvalOpDoubleP;
+typedef std::shared_ptr<FeedForwardEvalOpInt> FeedForwardEvalOpIntP;
 
 template <class T>
 void FeedForwardEvalOp<T>::registerParameters(StateP state)
@@ -56,7 +56,7 @@ bool FeedForwardEvalOp<T>::initialize(StateP state)
 	}
 
 	//fetch some individual to extract genotype - we need number of inputs and outputs of genotype
-	cart::CartesianP car = boost::dynamic_pointer_cast<cart::Cartesian>(state->getPopulation()->getLocalDeme()->at(0)->getGenotype());
+	cart::CartesianP car = std::dynamic_pointer_cast<cart::Cartesian>(state->getPopulation()->getLocalDeme()->at(0)->getGenotype());
 
 	//number of initial inputs (number of variables + number of constants)
 	inputs = car->getNumOfInputs();
@@ -129,7 +129,7 @@ FitnessP FeedForwardEvalOp<T>::evaluate(IndividualP individual)
 	FitnessP fitness = static_cast<FitnessP> (new FitnessMax);
 
 	//fetch genotype
-	car_ = boost::dynamic_pointer_cast<Cartesian> (individual->getGenotype());
+	car_ = std::dynamic_pointer_cast<Cartesian> (individual->getGenotype());
 
 	double value = 0;
 	vector<T> results;

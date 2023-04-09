@@ -1,7 +1,7 @@
 #ifndef ClassifierParams_h
 #define ClassifierParams_h
 
-#include "../Genotype.h"
+#include "../ECF_base.h"
 #include<sstream>
 
 /**
@@ -55,10 +55,9 @@ public:
 		return true;
 	}
 
-	virtual Genotype* copy() {
+	GenotypeP copy() override {
 		
-		ClassifierParams *newObject = new ClassifierParams(*this);
-		return newObject;
+		return std::make_shared<ClassifierParams>(*this);
 	}
 
 	virtual std::vector<CrossoverOpP> getCrossoverOp() {
@@ -134,6 +133,6 @@ public:
 	}
 
 };
-typedef boost::shared_ptr<ClassifierParams> ClassifierParamsP;
+typedef std::shared_ptr<ClassifierParams> ClassifierParamsP;
 
 #endif 

@@ -9,7 +9,7 @@ using namespace std;
 namespace cart {
 
 class FunctionSet;
-typedef boost::shared_ptr<FunctionSet> FunctionSetP;
+typedef std::shared_ptr<FunctionSet> FunctionSetP;
 
 class Cartesian : public vector<uint>, public Genotype
 {
@@ -24,7 +24,7 @@ public:
 	/**
 	 * Create an identical copy of the genotype object
 	 */
-	Cartesian* copy();
+	GenotypeP copy() override;
 
 	/**
 	 * Create and return a vector of crossover operators
@@ -130,7 +130,7 @@ protected:
 	
 	
 };
-typedef boost::shared_ptr<Cartesian> CartesianP;
+typedef std::shared_ptr<Cartesian> CartesianP;
 }
 
 #endif // Cartesian_h

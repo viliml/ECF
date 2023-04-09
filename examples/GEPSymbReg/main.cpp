@@ -1,5 +1,5 @@
 #include <ECF/ECF.h>
-#include "SymbRegEvalOp.h"
+#include "SymbRegEvalOpGEP.h"
 
 
 int main(int argc, char **argv)
@@ -7,7 +7,7 @@ int main(int argc, char **argv)
 	StateP state (new State);
 
 	// set the evaluation operator
-	state->setEvalOp(new SymbRegEvalOp);
+	state->setEvalOp(new SymbRegEvalOpGEP(0));
 
 	// initialize & run
 	state->initialize(argc, argv);

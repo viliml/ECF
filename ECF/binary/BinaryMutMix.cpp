@@ -20,7 +20,7 @@ bool BinaryMutMix::initialize(StateP state)
 
 bool BinaryMutMix::mutate(GenotypeP gene)
 {
-	Binary* bin = (Binary*) (gene.get());
+	BinaryP bin = std::static_pointer_cast<Binary>(gene);
 
 	uint dimension = state_->getRandomizer()->getRandomInteger((uint) bin->variables.size());
 	

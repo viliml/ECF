@@ -30,7 +30,7 @@ bool CartesianMutOnePoint::initialize(StateP state)
 
 bool CartesianMutOnePoint::mutate(GenotypeP gene)
 {
-	Cartesian* mut = (Cartesian*) (gene.get());
+	CartesianP mut = std::static_pointer_cast<Cartesian>(gene);
 
 	//if mutation probability is used, then choose values in genotpye to be mutated depending on the
 	//predefined mutation probability
@@ -40,7 +40,7 @@ bool CartesianMutOnePoint::mutate(GenotypeP gene)
 		{
 			if (state_->getRandomizer()->getRandomInteger(0, 1) < mutProb_)
 			{
-				mutOneValue(mut, i);
+				mutOneValue(mut.get(), i);
 			}
 		}
 	}
@@ -49,7 +49,7 @@ bool CartesianMutOnePoint::mutate(GenotypeP gene)
 	{
 		uint mutPoint = (uint)(state_->getRandomizer()->getRandomInteger(0, mut->size() - 1));
 
-		mutOneValue(mut, mutPoint);
+		mutOneValue(mut.get(), mutPoint);
 	}
 
 	return true;

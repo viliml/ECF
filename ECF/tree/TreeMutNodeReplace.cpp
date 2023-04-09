@@ -23,7 +23,7 @@ bool TreeMutNodeReplace::initialize(StateP state)
 
 bool TreeMutNodeReplace::mutate(GenotypeP gene)
 {
-	Tree* tree = (Tree*) (gene.get());
+	TreeP tree = std::static_pointer_cast<Tree>(gene);
 
 	// select random node in tree
 	uint origNodeIndex = state_->getRandomizer()->getRandomInteger((int) tree->size());

@@ -42,11 +42,11 @@ bool APGenotype::initialize(StateP state)
 
 	// 'persistent' is the AP genotype instance kept in the State;
 	// we use it to link the PrimitiveSet to it and store the parameters
-	APGenotype* persistent = (APGenotype*)state->getGenotypes()[genotypeId_].get();
+	APGenotypeP persistent = std::static_pointer_cast<APGenotype>(state->getGenotypes()[genotypeId_]);
 
 	// if we are the first one to initialize
 	if (!persistent->primitiveSet)
-		initializeFirst(persistent);
+		initializeFirst(persistent.get());
 
 	// in any case, read parameters from hometree
 	this->primitiveSet = persistent->primitiveSet;
@@ -65,10 +65,10 @@ bool APGenotype::initialize(StateP state)
 }
 
 
-void APGenotype::initializeFirst(APGenotype* persistent)
+void APGenotype::initializeFirst(APGenotype *persistent)
 {
 	// create and link PrimitiveSet to the persistent object
-	persistent->primitiveSet = (PrimitiveSetAPP)(new PrimitiveSetAP);
+	persistent->primitiveSet = std::make_shared<PrimitiveSetAP>();
 	persistent->primitiveSet->initialize(state_);
 	this->primitiveSet = persistent->primitiveSet;
 
@@ -123,7 +123,6 @@ void APGenotype::initializeFirst(APGenotype* persistent)
 
 	// set default terminal type
 	Primitives::terminal_type currentType = Primitives::Double;
-	type_iter typeIter;
 
 	// read terminal set from the configuration
 	std::stringstream tNames;
@@ -133,7 +132,7 @@ void APGenotype::initializeFirst(APGenotype* persistent)
 	while (tNames >> name)
 	{
 		// read current terminal type (if set)
-		typeIter = primitiveSet->mTypeNames_.find(name);
+		auto typeIter = primitiveSet->mTypeNames_.find(name);
 		if (typeIter != primitiveSet->mTypeNames_.end()) {
 			currentType = typeIter->second;
 			continue;
@@ -336,7 +335,7 @@ void APGenotype::buildTree(std::vector<uint> indices, uint current, uint depth)
 }
 
 
-Tree* APGenotype::convertToPhenotype() 
+TreeP APGenotype::convertToPhenotype()
 {
 	std::vector<uint> indices = getDiscreteIndices();
 
@@ -348,10 +347,9 @@ Tree* APGenotype::convertToPhenotype()
 
 	buildTree(indices, first, 0);
 
-	Tree* tree = new Tree();
-	for (uint i = 0; i < nodes.size(); i++) {
-		tree->addNode(nodes[i]);
-	}
+	TreeP tree = std::make_shared<Tree>();
+    tree->assign(nodes.begin(), nodes.end());
+    tree->update();
 
 	std::stringstream sValue;
 	for (uint i = 0; i < tree->size(); i++) {
@@ -364,15 +362,36 @@ Tree* APGenotype::convertToPhenotype()
 }
 
 
-void APGenotype::setTerminalValue(Tree* tree, std::string name, void* value)
+void APGenotype::setTerminalValue(const std::string &name, void* value)
 {
-	PrimitiveP term = primitiveSet->getTerminalByName(name);
-	if (term == PrimitiveP()) {
-		ECF_LOG_ERROR(state_, "AP genotype: invalid terminal name referenced in setTerminalValue()!");
-		throw("");
-	}
+    PrimitiveP term = primitiveSet->getTerminalByName(name);
+    if (term == PrimitiveP()) {
+        ECF_LOG_ERROR(state_, "AP genotype: invalid terminal name referenced in setTerminalValue()!");
+        ECF_LOG_ERROR(state_, name);
+        throw("");
+    }
 
-	term->setValue(value);
+    term->setValue(value);
+}
+
+
+uint APGenotype::getTerminalIndex(const std::string &name)
+{
+    int index = primitiveSet->getTerminalIndex(name);
+    if (index == -1) {
+        ECF_LOG_ERROR(state_, "AP genotype: invalid terminal name referenced in getTerminalIndex()!");
+        ECF_LOG_ERROR(state_, name);
+        throw("");
+    }
+
+    return index;
+}
+
+
+void APGenotype::setTerminalValue(uint index, void* value)
+{
+    PrimitiveP term = primitiveSet->getTerminalByIndex(index);
+    term->setValue(value);
 }
 
 

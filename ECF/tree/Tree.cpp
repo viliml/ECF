@@ -34,13 +34,13 @@ Tree::~Tree(void)
 {	}
 
 
-Tree* Tree::copy()
+GenotypeP Tree::copy()
 {
-	Tree *newObject = new Tree(*this);
+	TreeP newObject = std::make_shared<Tree>(*this);
 
 	// create new nodes, copy primitives if necessary
 	for(int i = 0; i < (int) this->size(); i++) {
-		(*newObject)[i] = (NodeP) (new Node((*this)[i]));
+		(*newObject)[i] = std::make_shared<Node>((*this)[i]);
 	}
 	return newObject;
 }
@@ -116,12 +116,12 @@ bool Tree::initialize(StateP state)
 {
 	// 'hometree' is a Tree instance kept in the State;
 	// we use it to link the PrimitiveSet to it and store the parameters
-	Tree* hometree = (Tree*) state->getGenotypes()[genotypeId_].get();
+	TreeP hometree = std::static_pointer_cast<Tree>(state->getGenotypes()[genotypeId_]);
 	state_ = state;
 
 	// if we are the first one to initialize
 	if(!hometree->primitiveSet_) 
-		initializeFirst(hometree);
+		initializeFirst(hometree.get());
 
 	// in any case, read parameters from hometree
 	this->primitiveSet_ = hometree->primitiveSet_;
@@ -177,7 +177,6 @@ void Tree::initializeFirst(Tree* hometree)
 
 	// set default terminal type
 	Primitives::terminal_type currentType = Primitives::Double;
-	type_iter typeIter;
 
 	// read terminal set from the configuration
 	std::stringstream tNames;
@@ -187,7 +186,7 @@ void Tree::initializeFirst(Tree* hometree)
 	while(tNames >> name)
 	{
 		// read current terminal type (if set)
-		typeIter = primitiveSet_->mTypeNames_.find(name);
+		auto typeIter = primitiveSet_->mTypeNames_.find(name);
 		if(typeIter != primitiveSet_->mTypeNames_.end()) {
 			currentType = typeIter->second;
 			continue;
@@ -501,15 +500,33 @@ void Tree::fullBuild(PrimitiveSetP primitiveSet)
  * \param name	terminal's name
  * \param value	terminal's value
  */
-void Tree::setTerminalValue(std::string name, void* value)
+void Tree::setTerminalValue(const std::string& name, void* value)
 {
-	PrimitiveP term = primitiveSet_->getTerminalByName(name);
-	if(term == PrimitiveP()) {
-		ECF_LOG_ERROR(state_, "Tree genotype: invalid terminal name referenced in setTerminalValue()!");
-		throw("");
-	}
+    PrimitiveP term = primitiveSet_->getTerminalByName(name);
+    if(term == PrimitiveP()) {
+        ECF_LOG_ERROR(state_, "Tree genotype: invalid terminal name referenced in setTerminalValue()!");
+        throw("");
+    }
 
-	term->setValue(value);
+    term->setValue(value);
+}
+
+
+void Tree::setTerminalValue(uint index, void* value)
+{
+    PrimitiveP term = primitiveSet_->getTerminalByIndex(index);
+    term->setValue(value);
+}
+
+
+uint Tree::getTerminalIndex(const std::string& name)
+{
+    int index = primitiveSet_->getTerminalIndex(name);
+    if(index == -1) {
+        ECF_LOG_ERROR(state_, "Tree genotype: invalid terminal name referenced in setTerminalValue()!");
+        throw("");
+    }
+    return index;
 }
 
 
@@ -519,15 +536,22 @@ void Tree::setTerminalValue(std::string name, void* value)
  * \param name	terminal's name
  * \param value	terminal's value
  */
-void Tree::getTerminalValue(std::string name, void* value)
+void Tree::getTerminalValue(const std::string& name, void* value)
 {
-	PrimitiveP term = primitiveSet_->getTerminalByName(name);
-	if(term == PrimitiveP()) {
-		ECF_LOG_ERROR(state_, "Tree genotype: invalid terminal name referenced in getTerminalValue()!");
-		throw("");
-	}
+    PrimitiveP term = primitiveSet_->getTerminalByName(name);
+    if(term == PrimitiveP()) {
+        ECF_LOG_ERROR(state_, "Tree genotype: invalid terminal name referenced in getTerminalValue()!");
+        throw("");
+    }
 
-	term->getValue(value);
+    term->getValue(value);
+}
+
+
+void Tree::getTerminalValue(uint index, void* value)
+{
+    PrimitiveP term = primitiveSet_->getTerminalByIndex(index);
+    term->getValue(value);
 }
 
 

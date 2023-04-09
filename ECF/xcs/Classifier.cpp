@@ -14,10 +14,10 @@
 Classifier::Classifier(XCSParamsP xcsParams, unsigned long long int time, IndividualP ind, StateP state){
 
 	this->xcsParams = xcsParams;
-	params = boost::dynamic_pointer_cast<ClassifierParams> (ind->getGenotype(3));
+	params = std::dynamic_pointer_cast<ClassifierParams> (ind->getGenotype(3));
 
 	this->ind = ind;
-	this->ind->fitness = static_cast<FitnessP> (new FitnessMax);
+	this->ind->fitness = std::make_shared<FitnessMax>();
 	setFitness(xcsParams->initF_);
 	
 	setTimeStamp(time);
@@ -37,7 +37,7 @@ Classifier::Classifier(ClassifierP cl){
 
 	xcsParams = cl->xcsParams;
 	ind = static_cast<IndividualP> (cl->ind->copy());
-	params = boost::dynamic_pointer_cast<ClassifierParams> (ind->getGenotype(3));
+	params = std::dynamic_pointer_cast<ClassifierParams> (ind->getGenotype(3));
 	valid = true;
 }
 
@@ -50,7 +50,7 @@ bool Classifier::checkState(const StateP state) {
 		return false;
 	}
 	
-	BitStringP bitstring = static_cast<BitStringP> (new BitString::BitString);
+	BitStringP bitstring = std::make_shared<BitString::BitString>();
 
 	if(state->getGenotypes()[0]->getName() != bitstring->getName() 
 		|| state->getGenotypes()[1]->getName() != bitstring->getName()) {
@@ -64,10 +64,10 @@ bool Classifier::checkState(const StateP state) {
 //Checks if classifier matches input value
 bool Classifier::doesMatch(const GenotypeP inp) {
 	
-	BitStringP input = boost::static_pointer_cast<BitString::BitString> (inp);
+	BitStringP input = std::static_pointer_cast<BitString::BitString> (inp);
 
-	BitStringP ruleBits = boost::static_pointer_cast<BitString::BitString> (ind->getGenotype(0));
-	BitStringP dontCareBits = boost::static_pointer_cast<BitString::BitString> (ind->getGenotype(1));	
+	BitStringP ruleBits = std::static_pointer_cast<BitString::BitString> (ind->getGenotype(0));
+	BitStringP dontCareBits = std::static_pointer_cast<BitString::BitString> (ind->getGenotype(1));
 	
 	for (uint i = 0; i < input->bits.size(); i++){
 		if (dontCareBits->bits[i] ) continue;
@@ -77,8 +77,8 @@ bool Classifier::doesMatch(const GenotypeP inp) {
 }
 //Fits classifier rule to match the input value
 void Classifier::cover (std::set<int> actions, const GenotypeP input, StateP state){
-	ind->at(0) = static_cast<GenotypeP> (input->copy());
-	BitStringP action = boost::dynamic_pointer_cast<BitString::BitString> (getAction());
+	ind->at(0) = input->copy();
+	BitStringP action = std::dynamic_pointer_cast<BitString::BitString> (getAction());
 
 	do {
 		action->initialize(state);
@@ -93,7 +93,7 @@ void Classifier::print(){
 	printRuleString (getRuleBitString(),getDontCareBitString());
 	std::cout << " : ";
 	
-	printBitString (boost::dynamic_pointer_cast<BitString::BitString> (getAction()) );
+	printBitString (std::dynamic_pointer_cast<BitString::BitString> (getAction()) );
 	
 	std::cout << " ("<< getError() << ", " << getPrediction() <<", "<< getFitness() << ")";
 	std::cout << "\t[ " << getNumerosity() << ", " << getActSetSize() << ", " << getExperience() << ", " << getTimeStamp() << " ]";
@@ -114,7 +114,7 @@ void Classifier::printRuleString (const BitStringP bString, const BitStringP has
 void Classifier::printBitString (const BitStringP bString) {
 	
 	for (uint i = 0; i < bString->bits.size(); i++){
-		std::cout << bString->bits[i] ? '1':'0';
+		std::cout << (bString->bits[i] ? '1':'0');
 	}
 	
 }
@@ -125,7 +125,7 @@ void Classifier::printBitString (const BitStringP bString) {
 int Classifier::getActionId(){
 	
 	int ret = 0;
-	BitStringP bstring = boost::dynamic_pointer_cast<BitString::BitString> (ind->getGenotype(2));
+	BitStringP bstring = std::dynamic_pointer_cast<BitString::BitString> (ind->getGenotype(2));
 	/* Promjenjeno zbog mux problema
 	if (bstring->bits[0]) ret += 1;
 	if (bstring->bits[1]) ret += 10;
@@ -270,17 +270,17 @@ bool Classifier::doesSubsume(ClassifierP cl){
 
 
 BitStringP Classifier::getRuleBitString(){
-	return boost::dynamic_pointer_cast<BitString::BitString> (ind->getGenotype(0));
+	return std::dynamic_pointer_cast<BitString::BitString> (ind->getGenotype(0));
 }
 
 BitStringP Classifier::getDontCareBitString(){
-	return boost::dynamic_pointer_cast<BitString::BitString> (ind->getGenotype(1));
+	return std::dynamic_pointer_cast<BitString::BitString> (ind->getGenotype(1));
 }
 
 void Classifier::mutateRule(GenotypeP genInput, StateP state) {
 
 	double rnd = state->getRandomizer()->getRandomDouble();
-	BitStringP input = boost::dynamic_pointer_cast<BitString::BitString> (genInput);
+	BitStringP input = std::dynamic_pointer_cast<BitString::BitString> (genInput);
 
 	for (uint i= 0; i < input->bits.size(); i++){
 		if (rnd < xcsParams->pMutation_){
@@ -299,7 +299,7 @@ void Classifier::mutateRule(GenotypeP genInput, StateP state) {
 void Classifier::mutateAction(StateP state) {
 		double rnd = state->getRandomizer()->getRandomDouble();
 		if (rnd < xcsParams->pMutation_){
-			BitStringP actionBits = boost::dynamic_pointer_cast<BitString::BitString>  (getAction());
+			BitStringP actionBits = std::dynamic_pointer_cast<BitString::BitString>  (getAction());
 			actionBits->initialize(state);
 		}
 }

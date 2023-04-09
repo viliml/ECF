@@ -26,7 +26,7 @@ public:
 	bool initialize(StateP);
 	void registerParameters(StateP);
 };
-typedef boost::shared_ptr<CartesianMutOnePoint> CartesianMutOnePointP;
+typedef std::shared_ptr<CartesianMutOnePoint> CartesianMutOnePointP;
 
 }
 

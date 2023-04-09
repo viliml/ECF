@@ -1,5 +1,5 @@
 #ifndef TermMaxEvalOp_H
-#define TermMaxEvalOp_h
+#define TermMaxEvalOp_H
 
 /**
  * \ingroup evol term
@@ -14,6 +14,6 @@ public:
 protected:
 	uint nEvaluations_;
 };
-typedef boost::shared_ptr<TermMaxEvalOp> TermMaxEvalOpP;
+typedef std::shared_ptr<TermMaxEvalOp> TermMaxEvalOpP;
 
 #endif // TermMaxEvalOp

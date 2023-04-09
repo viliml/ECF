@@ -28,7 +28,7 @@ public:
 	
 };
 
-typedef boost::shared_ptr<TwoObjMazeEnv> TwoObjMazeEnvP;
+typedef std::shared_ptr<TwoObjMazeEnv> TwoObjMazeEnvP;
 
 TwoObjMazeEnv::TwoObjMazeEnv(StateP s, double moveCost) : MazeEnv(s){
 	
@@ -59,7 +59,7 @@ GenotypeP TwoObjMazeEnv::getInput() {
 	std::cout << "Energy level: " << energy << std::endl;
 #endif
 
-	input = boost::dynamic_pointer_cast<BitString::BitString> (MazeEnv::getInput());
+	input = std::dynamic_pointer_cast<BitString::BitString> (MazeEnv::getInput());
 	input->bits[24] = (energy > 0.5);
 
 	if (displayStatEvent) displayStatEvent("Getting new input from environment");
@@ -126,7 +126,7 @@ FitnessP TwoObjMazeEnv::evaluate (IndividualP ind) {
 	fitness->setValue(0);
 
 	int move = 0;
-	BitStringP bstring = boost::dynamic_pointer_cast<BitString::BitString> (ind->getGenotype(1));
+	BitStringP bstring = std::dynamic_pointer_cast<BitString::BitString> (ind->getGenotype(1));
 
 	for (int i =0; i < 3; i++){
 		move *= 2;

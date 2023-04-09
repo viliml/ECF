@@ -2,9 +2,9 @@
 #define Fitness_h
 
 class Individual;
-typedef boost::shared_ptr<Individual> IndividualP;
+typedef std::shared_ptr<Individual> IndividualP;
 class Fitness;
-typedef boost::shared_ptr<Fitness> FitnessP;
+typedef std::shared_ptr<Fitness> FitnessP;
 
 /**
  * \ingroup evol main
@@ -37,7 +37,7 @@ public:
 	 */
 	virtual bool isBetterThan(FitnessP) = 0;
 
-	virtual Fitness* copy() = 0;	//!< object copy (for duplication of an individual)
+	virtual FitnessP copy() = 0;	//!< object copy (for duplication of an individual)
 
 	/// Is fitness object up to date.
 	bool isValid()
@@ -87,7 +87,6 @@ public:
 	virtual ~Fitness()
 	{	}
 };
-typedef boost::shared_ptr<Fitness> FitnessP;
 
 #endif // Fitness_h
 

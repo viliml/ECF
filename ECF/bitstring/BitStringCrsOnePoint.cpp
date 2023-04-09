@@ -20,9 +20,9 @@ bool BitStringCrsOnePoint::initialize(StateP state)
 
 bool BitStringCrsOnePoint::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-	BitString* p1 = (BitString*) (gen1.get());
-	BitString* p2 = (BitString*) (gen2.get());
-	BitString* ch = (BitString*) (child.get());
+	BitStringP p1 = std::static_pointer_cast<BitString>(gen1);
+	BitStringP p2 = std::static_pointer_cast<BitString>(gen2);
+	BitStringP ch = std::static_pointer_cast<BitString>(child);
 
 	uint bitCrs = state_->getRandomizer()->getRandomInteger(0, (int) p1->bits.size() - 1);
 

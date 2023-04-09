@@ -27,9 +27,9 @@ bool FloatingPointCrsSbx::initialize(StateP state)
 
 bool FloatingPointCrsSbx::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-	FloatingPoint* p1 = (FloatingPoint*) (gen1.get());
-	FloatingPoint* p2 = (FloatingPoint*) (gen2.get());
-	FloatingPoint* ch = (FloatingPoint*) (child.get());
+	FloatingPointP p1 = std::static_pointer_cast<FloatingPoint>(gen1);
+	FloatingPointP p2 = std::static_pointer_cast<FloatingPoint>(gen2);
+	FloatingPointP ch = std::static_pointer_cast<FloatingPoint>(child);
 
 	// repeat for each variable
 	for(uint i = 0; i < p1->realValue.size(); i++) {

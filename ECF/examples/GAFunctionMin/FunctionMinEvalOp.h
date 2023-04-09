@@ -14,9 +14,9 @@ public:
 	{
 		FitnessP fitness = static_cast<FitnessP> (new FitnessMin);
 
-		//FloatingPointP gen = boost::dynamic_pointer_cast<FloatingPoint::FloatingPoint> (individual->getGenotype());
+		//FloatingPointP gen = std::dynamic_pointer_cast<FloatingPoint::FloatingPoint> (individual->getGenotype());
 		FloatingPoint::FloatingPoint* gen = static_cast<FloatingPoint::FloatingPoint*> (individual->getGenotype().get());
-		//BinaryP gen = boost::dynamic_pointer_cast<Binary::Binary> (individual->getGenotype());
+		//BinaryP gen = std::dynamic_pointer_cast<Binary::Binary> (individual->getGenotype());
 		//Binary::Binary* gen = (Binary::Binary*) individual->getGenotype().get();
 
 		int problem = 1;
@@ -110,6 +110,6 @@ public:
 		return fitness;
 	}
 };
-typedef boost::shared_ptr<FunctionMinEvalOp> FunctionMinEvalOpP;
+typedef std::shared_ptr<FunctionMinEvalOp> FunctionMinEvalOpP;
 
 #endif /* FUNCTIONMINEVALOP_H_ */

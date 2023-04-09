@@ -12,7 +12,7 @@ public:
 	FitnessP evaluate(IndividualP individual);
 
 };
-//typedef boost::shared_ptr<OneMaxEvalOp> OneMaxEvalOpP;
+//typedef std::shared_ptr<OneMaxEvalOp> OneMaxEvalOpP;
 
 // ovo inace ide u posebni .cpp fajl, ali dobro...
 FitnessP OneMaxEvalOp::evaluate(IndividualP individual)
@@ -24,8 +24,8 @@ FitnessP OneMaxEvalOp::evaluate(IndividualP individual)
 	FitnessP fitness (new FitnessMax);
 	
 	// dohvat genotipa jedinke
-	//BitStringP bitstr = boost::dynamic_pointer_cast<BitString::BitString> (individual->getGenotype(0));
-	//BitStringP bitstr = boost::static_pointer_cast<BitString::BitString> (individual->getGenotype(0));
+	//BitStringP bitstr = std::dynamic_pointer_cast<BitString::BitString> (individual->getGenotype(0));
+	//BitStringP bitstr = std::static_pointer_cast<BitString::BitString> (individual->getGenotype(0));
 	BitString::BitString* bitstr = (BitString::BitString*) individual->getGenotype().get();
 	
 	// brojanje bitova

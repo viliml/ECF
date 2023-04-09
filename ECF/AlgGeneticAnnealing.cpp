@@ -8,7 +8,7 @@ GeneticAnnealing::GeneticAnnealing()
 	// define algorithm name
 	name_ = "GeneticAnnealing";
 
-	selBestOp_ = static_cast<SelBestOpP> (new SelBestOp);
+	selBestOp_ = std::make_shared<SelBestOp>();
 }
 
 

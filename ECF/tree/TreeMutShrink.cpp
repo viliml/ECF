@@ -23,7 +23,7 @@ bool TreeMutShrink::initialize(StateP state)
 
 bool TreeMutShrink::mutate(GenotypeP gene)
 {
-	Tree* tree = (Tree*) (gene.get());
+	TreeP tree = std::static_pointer_cast<Tree>(gene);
 
 	// try to select random node in tree which is not a terminal
 	// (it is silly to shrink just a terminal :))
@@ -42,7 +42,7 @@ bool TreeMutShrink::mutate(GenotypeP gene)
 	}
 
 	// first of all, make a copy and clear the original
-	Tree* copyTree = tree->copy();
+	TreeP copyTree = std::static_pointer_cast<Tree>(tree->copy());
 	tree->clear();
 
 	std::stringstream log;
@@ -52,7 +52,7 @@ bool TreeMutShrink::mutate(GenotypeP gene)
 
 	// copy all nodes before chosen subtree to original
 	for( ; i < chosenNode; i++) {
-		NodeP node = static_cast<NodeP> (new Node(copyTree->at(i)->primitive_));
+		NodeP node = std::make_shared<Node>(copyTree->at(i)->primitive_);
 		tree->addNode(node);
 	}
 
@@ -70,12 +70,11 @@ bool TreeMutShrink::mutate(GenotypeP gene)
 
 	// copy all nodes after chosen subtree to original
 	for( ; i < copyTree->size(); i++) {
-		NodeP node = static_cast<NodeP> (new Node(copyTree->at(i)->primitive_));
+		NodeP node = std::make_shared<Node>(copyTree->at(i)->primitive_);
 		tree->addNode(node);
 	}
 
 	tree->update();
-	delete copyTree;
 
 	ECF_LOG(state_, 5, log.str());
 

@@ -33,7 +33,7 @@ struct Param
 };
 
 }
-typedef boost::shared_ptr<ECF::Param> ParamP;
+typedef std::shared_ptr<ECF::Param> ParamP;
 
 
 /**
@@ -59,7 +59,7 @@ public:
 	void dumpEntries(XMLNode&);
 	void write(XMLNode&);
 };
-typedef boost::shared_ptr<Registry> RegistryP;
+typedef std::shared_ptr<Registry> RegistryP;
 
 #endif 
 

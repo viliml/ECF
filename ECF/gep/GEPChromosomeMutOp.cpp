@@ -15,7 +15,7 @@ namespace GEP{
 		return true;
 	}
 	bool GEPChromosomeMutOp::mutate(GenotypeP gene){
-		GEPChromosome* chr = (GEPChromosome*)(gene.get());
+		GEPChromosomeP chr = std::static_pointer_cast<GEPChromosome>(gene);
 		// mutate a single random point in the genotype by selecting a random primitive
 		// Select a random gene
 		uint iGene = state_->getRandomizer()->getRandomInteger(0, chr->genes - 1);

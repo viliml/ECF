@@ -31,10 +31,9 @@ namespace IntGenotype
 			name_ = "IntGenotype";
 		}
 
-		IntGenotype* copy()
+		GenotypeP copy()
 		{
-			IntGenotype *newObject = new IntGenotype(*this);
-			return newObject;
+			return std::make_shared<IntGenotype>(*this);
 		}
 
 		/// return lower bound of the defined interval
@@ -51,16 +50,16 @@ namespace IntGenotype
 		std::vector<CrossoverOpP> getCrossoverOp()
 		{
 			std::vector<CrossoverOpP> crx;
-			crx.push_back(static_cast<CrossoverOpP> (new IntGenotypeCrxOp));
-			crx.push_back(static_cast<CrossoverOpP> (new IntGenotypeCrxTwoPoint));
-			crx.push_back(static_cast<CrossoverOpP> (new IntGenotypeCrxAverage));
+			crx.push_back(std::make_shared<IntGenotypeCrxOp>());
+			crx.push_back(std::make_shared<IntGenotypeCrxTwoPoint>());
+			crx.push_back(std::make_shared<IntGenotypeCrxAverage>());
 			return crx;
 		}
 
 		std::vector<MutationOpP> getMutationOp()
 		{
 			std::vector<MutationOpP> mut;
-			mut.push_back(static_cast<MutationOpP> (new IntGenotypeMutOp));
+			mut.push_back(std::make_shared<IntGenotypeMutOp>());
 			return mut;
 		}
 
@@ -75,4 +74,4 @@ namespace IntGenotype
 	};
 }
 
-typedef boost::shared_ptr<IntGenotype::IntGenotype> IntGenotypeP;
+typedef std::shared_ptr<IntGenotype::IntGenotype> IntGenotypeP;

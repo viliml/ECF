@@ -9,10 +9,9 @@ bool FitnessMax::isBetterThan(FitnessP other)
 }
 
 
-FitnessMax* FitnessMax::copy()
+FitnessP FitnessMax::copy()
 {
-	FitnessMax *newObject = new FitnessMax(*this);
-	return newObject;
+	return std::make_shared<FitnessMax>(*this);
 }
 
 

@@ -22,14 +22,14 @@ bool PermutationCrsSPX::initialize(StateP state)
 
 bool PermutationCrsSPX::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-	Permutation* p1 = (Permutation*) (gen1.get());
-	Permutation* p2 = (Permutation*) (gen2.get());
+	PermutationP p1 = std::static_pointer_cast<Permutation> (gen1);
+	PermutationP p2 = std::static_pointer_cast<Permutation> (gen2);
 
 	// uzmimo radije smart pointer, da ne moramo rucno brisati visak
-	PermutationP ch = boost::static_pointer_cast<Permutation> (child);
+	PermutationP ch = std::static_pointer_cast<Permutation> (child);
 
 	// stvori kopiju genotipa
-	PermutationP ch2(ch->copy());
+	PermutationP ch2(std::static_pointer_cast<Permutation>(ch->copy()));
 	// dohvati jedinku dijete
 	IndividualP myInd = state_->getContext()->child;
 	// dohvati redni broj genotipa

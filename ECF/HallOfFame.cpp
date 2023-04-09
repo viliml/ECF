@@ -6,7 +6,7 @@
 
 HallOfFame::HallOfFame() 
 {
-	this->selectBest_ = static_cast<SelBestOpP> (new SelBestOp);
+	this->selectBest_ = std::make_shared<SelBestOp>();
 	hofSize_ = 1;
 	bEmpty_ = true;
 	lastChangeGen_ = 0;

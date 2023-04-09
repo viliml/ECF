@@ -3,7 +3,7 @@
 #include "SymbRegEvalOp.h"
 
 
-// called only once, before the evolution – generates training data
+// called only once, before the evolution alg generates training data
 bool SymbRegEvalOp::initialize(StateP state)
 {
 	nSamples = 10;
@@ -29,19 +29,19 @@ FitnessP SymbRegEvalOp::evaluate(IndividualP individual)
 	FitnessP fitness (new FitnessMin);
 
 	// get the genotype we defined in the configuration file
-	Tree::APGenotype* apg = (Tree::APGenotype*) individual->getGenotype().get();
+	APGenotypeP apg = std::static_pointer_cast<Tree::APGenotype>(individual->getGenotype());
 
-	Tree::Tree* tree;
-	if (useAPGenotype == true)
-		tree = (Tree::Tree*) ((Tree::APGenotype*)individual->getGenotype().get())->convertToPhenotype();
+	TreeP tree;
+	if (useAPGenotype)
+		tree = apg->convertToPhenotype();
 	else
-		tree = (Tree::Tree*) individual->getGenotype().get();
+		tree = std::static_pointer_cast<Tree::Tree>(individual->getGenotype());
 
 	double value = 0;
 	for(uint i = 0; i < nSamples; i++) {
 		// for each test data instance, the x value (domain) must be set
-		if(useAPGenotype == true)
-			apg->setTerminalValue(tree, "X", &domain[i]);
+		if(useAPGenotype)
+			apg->setTerminalValue("X", &domain[i]);
 		else
 			tree->setTerminalValue("X", &domain[i]);
 		// get the y value of the current tree

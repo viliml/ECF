@@ -12,8 +12,8 @@ EvolutionStrategy::EvolutionStrategy()
 	name_ = "EvolutionStrategy";
 
 	// create selection operators needed
-	selBestOp_ = static_cast<SelectionOperatorP> (new SelBestOp);
-	selRandomOp_ = static_cast<SelectionOperatorP> (new SelRandomOp);
+	selBestOp_ = std::make_shared<SelBestOp>();
+	selRandomOp_ = std::make_shared<SelRandomOp>();
 }
 
 

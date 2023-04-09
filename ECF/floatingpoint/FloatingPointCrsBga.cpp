@@ -23,9 +23,9 @@ bool FloatingPointCrsBga::initialize(StateP state)
 
 bool FloatingPointCrsBga::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-	FloatingPoint* p1 = (FloatingPoint*) (gen1.get());
-	FloatingPoint* p2 = (FloatingPoint*) (gen2.get());
-	FloatingPoint* ch = (FloatingPoint*) (child.get());
+	FloatingPointP p1 = std::static_pointer_cast<FloatingPoint>(gen1);
+	FloatingPointP p2 = std::static_pointer_cast<FloatingPoint>(gen2);
+	FloatingPointP ch = std::static_pointer_cast<FloatingPoint>(child);
 
 	int a;
 	uint size = (uint) p1->realValue.size();
@@ -53,7 +53,7 @@ bool FloatingPointCrsBga::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 		norm = 1;
 
 	// determine better parent
-	FloatingPoint *better, *worse;
+	FloatingPointP better, worse;
 	FitnessP parent2 = state_->getContext()->secondParent->fitness;
 	if(state_->getContext()->firstParent->fitness->isBetterThan(parent2)) {
 		better = p1;

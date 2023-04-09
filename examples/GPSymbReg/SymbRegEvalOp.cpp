@@ -3,7 +3,7 @@
 #include "SymbRegEvalOp.h"
 
 
-// called only once, before the evolution – generates training data
+// called only once, before the evolution ï¿½ generates training data
 bool SymbRegEvalOp::initialize(StateP state)
 {
 	nSamples = 10;

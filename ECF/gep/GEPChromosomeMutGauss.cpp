@@ -15,7 +15,7 @@ namespace GEP{
 	}
 
 	bool GEPChromosomeMutGauss::mutate(GenotypeP gene){
-		GEPChromosome* chr = (GEPChromosome*)(gene.get());
+		GEPChromosomeP chr = std::static_pointer_cast<GEPChromosome>(gene);
 		if (chr->dcLength > 0){
 			// mutate a single random point in the Dc domain by adding Gaussian noise to it
 			// Select a random gene

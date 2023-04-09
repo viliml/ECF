@@ -1,7 +1,7 @@
 #include "SymbRegEvalOp.h"
 
 
-// called only once, before the evolution – generates training data
+// called only once, before the evolution ï¿½ generates training data
 bool SymbRegEvalOp::initialize(StateP state)
 {
 	x.clear();
@@ -70,7 +70,7 @@ FitnessP SymbRegEvalOp::evaluate(IndividualP individual)
 	FitnessP fitness(new FitnessMin);
 
 	// get genotype
-	GEPChromosomeP gep = boost::static_pointer_cast<GEP::GEPChromosome> (individual->getGenotype());
+	GEPChromosomeP gep = std::static_pointer_cast<GEP::GEPChromosome> (individual->getGenotype());
 	// The system is multigenic. We iterate over every gene, transform it to a tree, execute it and link it with the results of its fellow genes
 	// The user specifies the linking function programatically or in the parameters
 

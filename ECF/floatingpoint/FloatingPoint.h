@@ -55,38 +55,37 @@ public:
 	double getUBound ()
 	{	return maxValue_;	}
 
-	FloatingPoint* copy()
+	GenotypeP copy() override
 	{
-		FloatingPoint *newObject = new FloatingPoint(*this);
-		return newObject;
+		return std::make_shared<FloatingPoint>(*this);
 	}
 
 	/// return usable crx operators
 	std::vector<CrossoverOpP> getCrossoverOp()
 	{
 		std::vector<CrossoverOpP> crx;
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsOnePoint));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsArithmetic));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsDiscrete));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsArithmeticSimple));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsArithmeticSingle));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsAverage));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsFlat));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsHeuristic));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsSbx));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsBga));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsLocal));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsBlxAlpha));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsBlxAlphaBeta));
+		crx.push_back(std::make_shared<FloatingPointCrsOnePoint>());
+		crx.push_back(std::make_shared<FloatingPointCrsArithmetic>());
+		crx.push_back(std::make_shared<FloatingPointCrsDiscrete>());
+		crx.push_back(std::make_shared<FloatingPointCrsArithmeticSimple>());
+		crx.push_back(std::make_shared<FloatingPointCrsArithmeticSingle>());
+		crx.push_back(std::make_shared<FloatingPointCrsAverage>());
+		crx.push_back(std::make_shared<FloatingPointCrsFlat>());
+		crx.push_back(std::make_shared<FloatingPointCrsHeuristic>());
+		crx.push_back(std::make_shared<FloatingPointCrsSbx>());
+		crx.push_back(std::make_shared<FloatingPointCrsBga>());
+		crx.push_back(std::make_shared<FloatingPointCrsLocal>());
+		crx.push_back(std::make_shared<FloatingPointCrsBlxAlpha>());
+		crx.push_back(std::make_shared<FloatingPointCrsBlxAlphaBeta>());
 		// control operator - not to be used in optimization
-		//crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsRandom));
+		//crx.push_back(std::make_shared<FloatingPointCrsRandom>());
 		return crx;
 	}
 
 	std::vector<MutationOpP> getMutationOp()
 	{
 		std::vector<MutationOpP> mut;
-		mut.push_back(static_cast<MutationOpP> (new FloatingPointMutSimple));
+		mut.push_back(std::make_shared<FloatingPointMutSimple>());
 		return mut;
 	}
 
@@ -95,5 +94,5 @@ public:
 };
 }
 
-typedef boost::shared_ptr<FloatingPoint::FloatingPoint> FloatingPointP;
+typedef std::shared_ptr<FloatingPoint::FloatingPoint> FloatingPointP;
 #endif

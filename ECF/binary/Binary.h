@@ -59,49 +59,48 @@ public:
 	uint getNumBits()
 	{	return nBits_;	}
 
-	bool initialize (StateP state);
+	bool initialize (StateP state) override;
 
-	void registerParameters(StateP state);
+	void registerParameters(StateP state) override;
 
 	/// Update genotype after genetic material change via genetic operators.
-	bool update (void);
+	bool update () override;
 
-	Binary* copy()
+	GenotypeP copy() override
 	{
-		Binary *newObject = new Binary(*this);
-		return newObject;
+		return std::make_shared<Binary>(*this);
 	}
 
-	std::vector<CrossoverOpP> getCrossoverOp()
+	std::vector<CrossoverOpP> getCrossoverOp() override
 	{
 		std::vector<CrossoverOpP> crx;
-		crx.push_back(static_cast<CrossoverOpP> (new BinaryCrsOnePoint));
-		crx.push_back(static_cast<CrossoverOpP> (new BinaryCrsTwoPoint));
-		crx.push_back(static_cast<CrossoverOpP> (new BinaryCrsUniform));
-		crx.push_back(static_cast<CrossoverOpP> (new BinaryCrsHalfUniform));
-		crx.push_back(static_cast<CrossoverOpP> (new BinaryCrsReducedSurrogate));
-		crx.push_back(static_cast<CrossoverOpP> (new BinaryCrsSegmented));
-		crx.push_back(static_cast<CrossoverOpP> (new BinaryCrsShuffle));
-		crx.push_back(static_cast<CrossoverOpP> (new BinaryCrsNonGeometric));
-		crx.push_back(static_cast<CrossoverOpP> (new BinaryCrsRandomRespectful));
+		crx.push_back(std::make_shared<BinaryCrsOnePoint>());
+		crx.push_back(std::make_shared<BinaryCrsTwoPoint>());
+		crx.push_back(std::make_shared<BinaryCrsUniform>());
+		crx.push_back(std::make_shared<BinaryCrsHalfUniform>());
+		crx.push_back(std::make_shared<BinaryCrsReducedSurrogate>());
+		crx.push_back(std::make_shared<BinaryCrsSegmented>());
+		crx.push_back(std::make_shared<BinaryCrsShuffle>());
+		crx.push_back(std::make_shared<BinaryCrsNonGeometric>());
+		crx.push_back(std::make_shared<BinaryCrsRandomRespectful>());
 		// TODO: reimplement
-		//crx.push_back(static_cast<CrossoverOpP> (new BinaryCrsMasked));
+		//crx.push_back(std::make_shared<BinaryCrsMasked>());
 		return crx;
 	}
 
-	std::vector<MutationOpP> getMutationOp()
+	std::vector<MutationOpP> getMutationOp() override
 	{	
 		std::vector<MutationOpP> mut;
-		mut.push_back(static_cast<MutationOpP> (new BinaryMutSimple));
-		mut.push_back(static_cast<MutationOpP> (new BinaryMutMix));
+        mut.push_back(std::make_shared<BinaryMutSimple>());
+        mut.push_back(std::make_shared<BinaryMutMix>());
 		return mut;
 	}
 
-	void write(XMLNode& xBinary);
+	void write(XMLNode& xBinary) override;
 
-	void read(XMLNode& xBinary);
+	void read(XMLNode& xBinary) override;
 };
 
 }
-typedef boost::shared_ptr<Binary::Binary> BinaryP;
+typedef std::shared_ptr<Binary::Binary> BinaryP;
 #endif

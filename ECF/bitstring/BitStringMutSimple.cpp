@@ -29,7 +29,7 @@ bool BitStringMutSimple::initialize(StateP state)
 
 bool BitStringMutSimple::mutate(GenotypeP gene)
 {
-	BitString* bitstr = (BitString*) (gene.get());
+	BitStringP bitstr = std::static_pointer_cast<BitString>(gene);
 
 	// invert all bits with 'bitProb_' probability
 	if(bUseBitProb_) {

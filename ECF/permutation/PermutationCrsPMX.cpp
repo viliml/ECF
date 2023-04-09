@@ -22,9 +22,9 @@ bool PermutationCrsPMX::initialize(StateP state)
 	
 bool PermutationCrsPMX::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-	Permutation* p1 = (Permutation*) (gen1.get());
-	Permutation* p2 = (Permutation*) (gen2.get());
-	Permutation* ch = (Permutation*) (child.get());
+	PermutationP p1 = std::static_pointer_cast<Permutation>(gen1);
+	PermutationP p2 = std::static_pointer_cast<Permutation>(gen2);
+	PermutationP ch = std::static_pointer_cast<Permutation>(child);
 
 	uint start = state_->getRandomizer()->getRandomInteger(p1->getSize());
 	uint end = state_->getRandomizer()->getRandomInteger((int) start, (int) p1->getSize() - 1);
@@ -44,7 +44,7 @@ bool PermutationCrsPMX::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 			continue;
 		//za pocetak probajmo s elementom iz drugog roditelja
 		int map = p2->variables[i];
-		//dok god se trenutni element koji želimo staviti na i-to mjesto 
+		//dok god se trenutni element koji ï¿½elimo staviti na i-to mjesto 
 		//djeteta vec u njemu nalazi trazimo dalje
 		do {
 			iter = mappings.find(map);

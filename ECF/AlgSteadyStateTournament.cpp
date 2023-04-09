@@ -12,8 +12,8 @@ SteadyStateTournament::SteadyStateTournament()
 
 	// create selection operators needed
 	// in this case, SelRandomOp and SelWorstOp
-	selRandomOp = static_cast<SelectionOperatorP> (new SelRandomOp);
-	selWorstOp = static_cast<SelectionOperatorP> (new SelWorstOp);
+	selRandomOp = std::make_shared<SelRandomOp>();
+	selWorstOp = std::make_shared<SelWorstOp>();
 }
 
 

@@ -7,7 +7,7 @@ namespace IntGenotype
 	
 		bool IntGenotypeMutOp::mutate(GenotypeP gene)
 		{
-			IntGenotype* gen = (IntGenotype*) (gene.get());
+			IntGenotypeP gen = std::static_pointer_cast<IntGenotype>(gene);
 
 			int a = state_->getRandomizer()->getRandomInteger(gen->intValues.size());
 			gen->intValues[a] = state_->getRandomizer()->getRandomInteger(gen->getLBound(), gen->getUBound());

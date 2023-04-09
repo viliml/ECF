@@ -22,9 +22,9 @@ bool PermutationCrsCyclic::initialize(StateP state)
 
 bool PermutationCrsCyclic::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-	Permutation* p1 = (Permutation*) (gen1.get());
-	Permutation* p2 = (Permutation*) (gen2.get());
-	Permutation* ch = (Permutation*) (child.get());
+	PermutationP p1 = std::static_pointer_cast<Permutation>(gen1);
+	PermutationP p2 = std::static_pointer_cast<Permutation>(gen2);
+	PermutationP ch = std::static_pointer_cast<Permutation>(child);
 
 	std::map<int, int> invP1, invP2, index;
 
@@ -35,7 +35,7 @@ bool PermutationCrsCyclic::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 	  invP2[p2->variables[i]] = i;
 	}
 
-	//sluèajnim odabirom odabrati da li se kopiranje poèima od roditelja 1 ili 2
+	//sluÄajnim odabirom odabrati da li se kopiranje poÄima od roditelja 1 ili 2
 	int rand = state_->getRandomizer()->getRandomInteger(0,1);
 
 	int j = 0;

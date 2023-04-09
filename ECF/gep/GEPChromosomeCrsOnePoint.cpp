@@ -16,9 +16,9 @@ namespace GEP{
 
 	bool GEPChromosomeCrsOnePoint::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child){
 		// get the genotype from the parents and the child
-		GEPChromosome* p1 = (GEPChromosome*)(gen1.get());
-		GEPChromosome* p2 = (GEPChromosome*)(gen2.get());
-		GEPChromosome* ch = (GEPChromosome*)(child.get());
+		GEPChromosomeP p1 = std::static_pointer_cast<GEPChromosome>(gen1);
+		GEPChromosomeP p2 = std::static_pointer_cast<GEPChromosome>(gen2);
+		GEPChromosomeP ch = std::static_pointer_cast<GEPChromosome>(child);
 		ch->clear();
 		// select a point on which the crossover operator will be applied
 		uint bitCrs = state_->getRandomizer()->getRandomInteger(0, (int)p1->size() - 1);

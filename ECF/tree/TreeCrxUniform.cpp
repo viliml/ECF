@@ -22,9 +22,9 @@ bool TreeCrxUniform::initialize(StateP state)
 
 bool TreeCrxUniform::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP ch)
 {
-	Tree* male = (Tree*) (gen1.get());
-	Tree* female = (Tree*) (gen2.get());
-	Tree* child = (Tree*) (ch.get());
+	TreeP male = std::static_pointer_cast<Tree>(gen1);
+	TreeP female = std::static_pointer_cast<Tree>(gen2);
+	TreeP child = std::static_pointer_cast<Tree>(ch);
 
 	uint mRange, fRange;
 
@@ -45,12 +45,12 @@ bool TreeCrxUniform::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP ch)
 		if( male->at( iMale )->primitive_->getNumberOfArguments() == female->at( iFemale )->primitive_->getNumberOfArguments() ) {
 			// if the number of arguments is the same, choose randomly from either parent
 			if( pickMale ) {
-				NodeP node = static_cast<NodeP> (new Node( male->at( iMale )->primitive_));
+				NodeP node = std::make_shared<Node>(male->at( iMale )->primitive_);
 				child->push_back( node );
 				child->at( iChild )->depth_ = male->at( iMale )->depth_;
 			}
 			else {
-				NodeP node = static_cast<NodeP> (new Node( female->at( iFemale )->primitive_));
+				NodeP node = std::make_shared<Node>(female->at( iFemale )->primitive_);
 				child->push_back( node );
 				child->at( iChild )->depth_ = female->at( iFemale )->depth_;
 			}		
@@ -60,14 +60,14 @@ bool TreeCrxUniform::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP ch)
 			// if numbers of arguments differ, copy subtree to child
 			if(pickMale) {
 				for( uint i = 0; i < male->at( iMale )->size_; i++, iChild++ ) {
-					NodeP node = static_cast<NodeP> (new Node( male->at( iMale + i )->primitive_));
+					NodeP node = std::make_shared<Node>(male->at( iMale + i )->primitive_);
 					child->push_back( node );
 					child->at( iChild )->depth_ = male->at( iMale + i )->depth_;
 				}				
 			}
 			else {
 				for( uint i = 0; i < female->at( iFemale )->size_; i++, iChild++ ) {
-					NodeP node = static_cast<NodeP> (new Node( female->at( iFemale + i )->primitive_));
+					NodeP node = std::make_shared<Node>(female->at( iFemale + i )->primitive_);
 					child->push_back( node );
 					child->at( iChild )->depth_ = female->at( iFemale + i )->depth_;
 				}				

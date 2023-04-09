@@ -12,7 +12,7 @@ public:
 	bool initialize(StateP);
 	void registerParameters(StateP);
 };
-typedef boost::shared_ptr<TreeCrxSimple> TreeCrxSimpleP;
+typedef std::shared_ptr<TreeCrxSimple> TreeCrxSimpleP;
 
 #endif // TreeCrxSimple_h
 

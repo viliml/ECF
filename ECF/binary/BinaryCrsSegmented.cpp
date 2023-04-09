@@ -20,9 +20,9 @@ bool BinaryCrsSegmented::initialize(StateP state)
 
 bool BinaryCrsSegmented::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-	Binary* p1 = (Binary*) (gen1.get());
-	Binary* p2 = (Binary*) (gen2.get());
-	Binary* ch = (Binary*) (child.get());
+	BinaryP p1 = std::static_pointer_cast<Binary>(gen1);
+	BinaryP p2 = std::static_pointer_cast<Binary>(gen2);
+	BinaryP ch = std::static_pointer_cast<Binary>(child);
 
 	double s=0.2;
 
@@ -39,8 +39,8 @@ bool BinaryCrsSegmented::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 				ch->variables[dimension][i] = p2->variables[dimension][i];
 			}
 
-			// Sa 's' posto vjerojatnosti promjeni roditelja za sljedeæi bit;
-			// Sa (1-s) tekuæi roditelj ostaje nepromijenjen.
+			// Sa 's' posto vjerojatnosti promjeni roditelja za sljedeÄ‡i bit;
+			// Sa (1-s) tekuÄ‡i roditelj ostaje nepromijenjen.
 			double q = state_->getRandomizer()->getRandomDouble();
 			if(q < s)
 			{

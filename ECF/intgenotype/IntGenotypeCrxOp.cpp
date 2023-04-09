@@ -7,9 +7,9 @@ namespace IntGenotype
 	
 		bool IntGenotypeCrxOp::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child) {
 
-			IntGenotype* p1 = (IntGenotype*)(gen1.get());
-			IntGenotype* p2 = (IntGenotype*)(gen2.get());
-			IntGenotype* ch = (IntGenotype*)(child.get());
+			IntGenotypeP p1 = std::static_pointer_cast<IntGenotype>(gen1);
+			IntGenotypeP p2 = std::static_pointer_cast<IntGenotype>(gen2);
+			IntGenotypeP ch = std::static_pointer_cast<IntGenotype>(child);
 
 			uint dimensionCrs = state_->getRandomizer()->getRandomInteger((int)p1->intValues.size());
 			switch (state_->getRandomizer()->getRandomInteger(0, 1)) {

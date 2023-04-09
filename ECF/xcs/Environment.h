@@ -16,7 +16,7 @@ protected:
 
 public:
 	virtual GenotypeP getInput() = 0;
-	//IDEJA: napraviti da se iz datoteke s parametrima uèita tag <problem>
+	//IDEJA: napraviti da se iz datoteke s parametrima uÄita tag <problem>
 	//i cijeli proslijedi oklini prilikom inicijalizacije
 
 	//Method for Environment initialization
@@ -47,6 +47,6 @@ public:
 	bool checkState(const StateP state) { return true; };
 
 };
-typedef boost::shared_ptr<Environment> EnvironmentP;
+typedef std::shared_ptr<Environment> EnvironmentP;
 
 #endif

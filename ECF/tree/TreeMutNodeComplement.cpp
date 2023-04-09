@@ -23,7 +23,7 @@ bool TreeMutNodeComplement::initialize(StateP state)
 
 bool TreeMutNodeComplement::mutate(GenotypeP gene)
 {
-	Tree* tree = (Tree*) (gene.get());
+	TreeP tree = std::static_pointer_cast<Tree>(gene);
 
 	// try to select a random node whose complement is in primitive set
 	uint tries = 0;

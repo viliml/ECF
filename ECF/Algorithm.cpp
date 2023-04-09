@@ -25,7 +25,7 @@ bool Algorithm::initializeParallel(StateP state)
 {
 	state_ = state;
 	comm_ = state->getCommunicator();
-	selBestOp = static_cast<SelBestOpP> (new SelBestOp);
+	selBestOp = std::make_shared<SelBestOp>();
 	totalEvaluations_ = wastedEvaluations_ = 0;
 	bImplicitEvaluation_ = bImplicitMutation_ = false;
 

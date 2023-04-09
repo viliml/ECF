@@ -4,8 +4,8 @@
 
 Population::Population()
 {
-	hof_ = static_cast<HallOfFameP> (new HallOfFame);
-	stats_ = static_cast<StatCalcP> (new StatCalc);
+	hof_ = std::make_shared<HallOfFame>();
+	stats_ = std::make_shared<StatCalc>();
 	
 	nIndividuals_ = 100;
 	nDemes_ = 1;
@@ -37,10 +37,10 @@ bool Population::initialize(StateP state)
 	state_ = state;
 	this->clear();
 
-	hof_ = static_cast<HallOfFameP> (new HallOfFame);
+	hof_ = std::make_shared<HallOfFame>();
 	hof_->initialize(state);
 
-	stats_ = static_cast<StatCalcP> (new StatCalc);
+	stats_ = std::make_shared<StatCalc>();
 	stats_->initialize(state);
 
 	voidP sptr = state->getRegistry()->getEntry("population.size");
@@ -49,7 +49,7 @@ bool Population::initialize(StateP state)
 	nDemes_ = *((uint*) sptr.get());
 
 	for(uint i = 0; i < nDemes_; i++){
-		this->push_back(static_cast<DemeP> (new Deme));
+		this->push_back(std::make_shared<Deme>());
 		this->back()->getSize() = nIndividuals_;
 		this->back()->initialize(state);
 	}
@@ -147,15 +147,15 @@ bool Population::initialize(StateP state)
 	sptr = state->getRegistry()->getEntry("population.demes");
 	nDemes_ = *((uint*) sptr.get());
 
-	hof_ = static_cast<HallOfFameP> (new HallOfFame);
+	hof_ = std::make_shared<HallOfFame>();
 	hof_->initialize(state);
 
-	stats_ = static_cast<StatCalcP> (new StatCalc);
+	stats_ = std::make_shared<StatCalc>();
 	stats_->initialize(state);
 
 	// single deme:
 	if(nDemes_ == 1) {
-		this->push_back(static_cast<DemeP> (new Deme));
+		this->push_back(std::make_shared<Deme>());
 		this->back()->getSize() = nIndividuals_;
 		this->back()->initialize(state);
 		myDemeIndex_ = 0;
@@ -164,7 +164,7 @@ bool Population::initialize(StateP state)
 
 	// multiple demes:
 	myDemeIndex_ = state->getCommunicator()->createDemeCommunicator(nDemes_);
-	this->push_back(static_cast<DemeP> (new Deme));
+	this->push_back(std::make_shared<Deme>());
 	this->back()->getSize() = nIndividuals_;
 	this->back()->initialize(state);
 

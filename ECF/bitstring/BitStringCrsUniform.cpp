@@ -20,9 +20,9 @@ bool BitStringCrsUniform::initialize(StateP state)
 
 bool BitStringCrsUniform::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-    BitString* p1 = (BitString*) (gen1.get());
-	BitString* p2 = (BitString*) (gen2.get());
-	BitString* ch = (BitString*) (child.get());
+    BitStringP p1 = std::static_pointer_cast<BitString>(gen1);
+	BitStringP p2 = std::static_pointer_cast<BitString>(gen2);
+	BitStringP ch = std::static_pointer_cast<BitString>(child);
 
 	for(uint i = 0; i < p1->bits.size(); i++){
 		if (p1->bits[i] == p2->bits[i]) 

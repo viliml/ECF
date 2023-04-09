@@ -11,10 +11,10 @@
  */
 State::State()
 {
-	this->population_ = static_cast<PopulationP> (new Population);
-	this->crossover_ = static_cast<CrossoverP> (new Crossover);
-	this->mutation_ = static_cast<MutationP> (new Mutation);
-	this->context_ = static_cast<EvolutionContextP> (new EvolutionContext);
+	this->population_ = std::make_shared<Population>();
+	this->crossover_ = std::make_shared<Crossover>();
+	this->mutation_ = std::make_shared<Mutation>();
+	this->context_ = std::make_shared<EvolutionContext>();
 
 	XMLNode::setGlobalOptions(XMLNode::char_encoding_legacy);	// XML encoding
 
@@ -31,86 +31,86 @@ State::State()
 
 	// register existing components:
 	// algorithms
-	AlgorithmP alg = static_cast<AlgorithmP> (new SteadyStateTournament);
+	AlgorithmP alg = std::make_shared<SteadyStateTournament>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new RouletteWheel);
+	alg = std::make_shared<RouletteWheel>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new ParticleSwarmOptimization);
+	alg = std::make_shared<ParticleSwarmOptimization>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new Elimination);
+	alg = std::make_shared<Elimination>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new XCS);
+	alg = std::make_shared<XCS>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new RandomSearch);
+	alg = std::make_shared<RandomSearch>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new GeneticAnnealing);
+	alg = std::make_shared<GeneticAnnealing>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new DifferentialEvolution);
+	alg = std::make_shared<DifferentialEvolution>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new ArtificialBeeColony);
+	alg = std::make_shared<ArtificialBeeColony>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new GenHookeJeeves);
+	alg = std::make_shared<GenHookeJeeves>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new Clonalg);
+	alg = std::make_shared<Clonalg>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new OptIA);
+	alg = std::make_shared<OptIA>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new EvolutionStrategy);
+	alg = std::make_shared<EvolutionStrategy>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new AlgNSGA2);
+	alg = std::make_shared<AlgNSGA2>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new CuckooSearch);
+	alg = std::make_shared<CuckooSearch>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new AlgGEP);
+	alg = std::make_shared<AlgGEP>();
 	this->mAlgorithms_[alg->getName()] = alg;
 
 #ifdef _MPI
 	// paralel algorithms
-	alg = static_cast<AlgorithmP> (new AlgSGenGpea);
+	alg = std::make_shared<AlgSGenGpea>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new AlgAEliGpea);
+	alg = std::make_shared<AlgAEliGpea>();
 	this->mAlgorithms_[alg->getName()] = alg;
-	alg = static_cast<AlgorithmP> (new AlgAEliGpea2);
+	alg = std::make_shared<AlgAEliGpea2>();
 	this->mAlgorithms_[alg->getName()] = alg;
 #endif
 
 	// genotypes
-	GenotypeP gen = static_cast<GenotypeP> (new BitString::BitString);
+	GenotypeP gen = std::make_shared<BitString::BitString>();
 	this->mGenotypes_[gen->getName()] = gen;
-	gen = static_cast<GenotypeP> (new Binary::Binary);
+	gen = std::make_shared<Binary::Binary>();
 	this->mGenotypes_[gen->getName()] = gen;
-	gen = static_cast<GenotypeP> (new Tree::Tree);
+	gen = std::make_shared<Tree::Tree>();
 	this->mGenotypes_[gen->getName()] = gen;
-	gen = static_cast<GenotypeP> (new Permutation::Permutation);
+	gen = std::make_shared<Permutation::Permutation>();
 	this->mGenotypes_[gen->getName()] = gen;
-	gen = static_cast<GenotypeP> (new FloatingPoint::FloatingPoint);
+	gen = std::make_shared<FloatingPoint::FloatingPoint>();
 	this->mGenotypes_[gen->getName()] = gen;
-	gen = static_cast<GenotypeP> (new Tree::APGenotype);
+	gen = std::make_shared<Tree::APGenotype>();
 	this->mGenotypes_[gen->getName()] = gen;
-	gen = static_cast<GenotypeP> (new IntGenotype::IntGenotype);
+	gen = std::make_shared<IntGenotype::IntGenotype>();
 	this->mGenotypes_[gen->getName()] = gen;
-	gen = static_cast<GenotypeP> (new GEP::GEPChromosome);
+	gen = std::make_shared<GEP::GEPChromosome>();
 	this->mGenotypes_[gen->getName()] = gen;
-	//	gen = static_cast<GenotypeP> (new cart::Cartesian);
+	//	gen = std::make_shared<cart::Cartesian>();
 //	this->mGenotypes_[gen->getName()] = gen;
 
 	// termination operators
-	OperatorP op = static_cast<OperatorP> (new TermStagnationOp);
+	OperatorP op = std::make_shared<TermStagnationOp>();
 	this->allTerminationOps_.push_back(op);
-	op = static_cast<OperatorP> (new TermMaxGenOp);
+	op = std::make_shared<TermMaxGenOp>();
 	this->allTerminationOps_.push_back(op);
-	op = static_cast<OperatorP> (new TermFitnessValOp);
+	op = std::make_shared<TermFitnessValOp>();
 	this->allTerminationOps_.push_back(op);
-	op = static_cast<OperatorP> (new TermMaxTimeOp);
+	op = std::make_shared<TermMaxTimeOp>();
 	this->allTerminationOps_.push_back(op);
-	op = static_cast<OperatorP> (new TermMaxEvalOp);
+	op = std::make_shared<TermMaxEvalOp>();
 	this->allTerminationOps_.push_back(op);
 
-	setRandomizer(static_cast<RandomizerP> (new SimpleRandomizer));
-	this->registry_ = static_cast<RegistryP> (new Registry);
-	this->logger_ = static_cast<LoggerP> (new Logger);
-	this->comm_ = static_cast<CommunicatorP> (new Comm::Communicator);
-	this->migration_ = static_cast<MigrationP> (new Migration);
+	setRandomizer(std::make_shared<SimpleRandomizer>());
+	this->registry_ = std::make_shared<Registry>();
+	this->logger_ = std::make_shared<Logger>();
+	this->comm_ = std::make_shared<Comm::Communicator>();
+	this->migration_ = std::make_shared<Migration>();
 }
 
 
@@ -500,7 +500,7 @@ bool State::initializeComponents(int argc, char **argv)
 		// State keeps a single uninitialized object of all active Genotypes
 		ECF_LOG(this, 4, "Initializing active genotypes...");
 		for(uint i = 0; i < genotype_.size(); i++) {
-			GenotypeP copy = (GenotypeP) genotype_[i]->copy();
+			GenotypeP copy = genotype_[i]->copy();
 			bInitialized_ &= copy->initialize(state_);
 		}
 		if(!bInitialized_) {
@@ -935,7 +935,7 @@ void State::loadMilestone()
  */
 uint State::setGenotype(GenotypeP genotype)
 {
-	genotype_.push_back((GenotypeP) genotype->copy());
+	genotype_.push_back(genotype->copy());
 	uint index = (uint) genotype_.size() - 1;
 	genotype_[index]->setGenotypeId(index);
 	genotype->setGenotypeId(index);
@@ -1068,7 +1068,7 @@ bool State::run()
 	}
 
 	startTime_ = time(NULL);
-	std::string stime = ctime(&startTime_);
+	std::string stime = std::ctime(&startTime_);
 	ECF_LOG(this, 3, "Start time: " + stime);
 	// adjust with previous runtime (from milestone)
 	startTime_ -= milestoneElapsedTime_;

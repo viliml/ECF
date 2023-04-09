@@ -32,7 +32,7 @@ namespace cart
 		uint numOfArgs_;
 	};
 
-	typedef boost::shared_ptr<Function> FunctionP;
+	typedef std::shared_ptr<Function> FunctionP;
 }
 
 

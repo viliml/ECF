@@ -23,9 +23,9 @@ bool TreeCrxContextPreserved::initialize(StateP state)
 
 bool TreeCrxContextPreserved::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP ch)
 {
-	Tree* male = (Tree*) (gen1.get());
-	Tree* female = (Tree*) (gen2.get());
-	Tree* child = (Tree*) (ch.get());
+	TreeP male = std::static_pointer_cast<Tree>(gen1);
+	TreeP female = std::static_pointer_cast<Tree>(gen2);
+	TreeP child = std::static_pointer_cast<Tree>(ch);
 		
 	uint mRange, fRange;
 	uint mIndex, fIndex;
@@ -109,18 +109,18 @@ bool TreeCrxContextPreserved::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP ch)
 
 	// copy from male parent
 	for(uint i = 0; i < mIndex; i++) {
-		NodeP node = static_cast<NodeP> (new Node(male->at(i)->primitive_));
+		NodeP node = std::make_shared<Node>(male->at(i)->primitive_);
 		child->push_back(node);
 		child->at(i)->depth_ = male->at(i)->depth_;
 	}
 	// copy from female parent
 	for(uint i = 0; i < female->at( fIndex )->size_; i++) {
-		NodeP node = static_cast<NodeP> (new Node(female->at( fIndex + i)->primitive_));
+		NodeP node = std::make_shared<Node>(female->at( fIndex + i)->primitive_);
 		child->push_back(node);
 	}
 	// copy rest from male parent
 	for(uint i = mIndex + male->at( mIndex )->size_; i < mRange; i++) {
-		NodeP node = static_cast<NodeP> (new Node( male->at(i)->primitive_));
+		NodeP node = std::make_shared<Node>(male->at(i)->primitive_);
 		child->push_back(node);
 	}
 

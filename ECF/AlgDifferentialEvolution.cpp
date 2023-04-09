@@ -15,7 +15,7 @@ DifferentialEvolution::DifferentialEvolution()
 	bounded_ = false;
 
 	// create selection operators needed
-	selRandomOp = static_cast<SelectionOperatorP> (new SelRandomOp);
+	selRandomOp = std::make_shared<SelRandomOp>();
 }
 
 
@@ -42,7 +42,7 @@ bool DifferentialEvolution::initialize(StateP state)
 	// algorithm accepts a single FloatingPoint or Binary genotype 
 	// or a genotype derived from the abstract RealValueGenotype class
 	GenotypeP activeGenotype = state->getGenotypes()[0];
-	RealValueGenotypeP rv = boost::dynamic_pointer_cast<RealValueGenotype> (activeGenotype);
+	RealValueGenotypeP rv = std::dynamic_pointer_cast<RealValueGenotype> (activeGenotype);
 	if(!rv) {
 		ECF_LOG_ERROR(state, "Error: Differential evolution algorithm accepts only a RealValueGenotype derived genotype! (FloatingPoint or Binary)");
 		throw ("");
@@ -99,13 +99,13 @@ void DifferentialEvolution::createDonorVectors(DemeP deme, StateP state)
 		ind3 = selRandomOp->select(*deme);
 
 	// get their genotypes
-	RealValueGenotype* flp1 = (RealValueGenotype*) (ind1->getGenotype().get());
-	RealValueGenotype* flp2 = (RealValueGenotype*) (ind2->getGenotype().get());
-	RealValueGenotype* flp3 = (RealValueGenotype*) (ind3->getGenotype().get());
+	RealValueGenotypeP flp1 = std::static_pointer_cast<RealValueGenotype>(ind1->getGenotype());
+	RealValueGenotypeP flp2 = std::static_pointer_cast<RealValueGenotype>(ind2->getGenotype());
+	RealValueGenotypeP flp3 = std::static_pointer_cast<RealValueGenotype>(ind3->getGenotype());
 
 	// create new individual to contain new donor vector
 	IndividualP v (new Individual(state));
-	RealValueGenotype* b = (RealValueGenotype*) v->getGenotype().get();
+	RealValueGenotypeP b = std::static_pointer_cast<RealValueGenotype>(v->getGenotype());
 	double donor_value;
 	
 	// calculate new donor vector elements
@@ -131,9 +131,9 @@ void DifferentialEvolution::createDonorVectors(DemeP deme, StateP state)
 void DifferentialEvolution::crossover(DemeP deme, uint index, StateP state)
 {
 	// get population member and corresponding donor vector
-	RealValueGenotype* flp1 = (RealValueGenotype*) (deme->at(index)->getGenotype().get());
+	RealValueGenotypeP flp1 = std::static_pointer_cast<RealValueGenotype>(deme->at(index)->getGenotype());
 	int dim = (int) flp1->realValue.size();
-	RealValueGenotype* flp2 = (RealValueGenotype*) donor_vector[index]->getGenotype().get();
+	RealValueGenotypeP flp2 = std::static_pointer_cast<RealValueGenotype>(donor_vector[index]->getGenotype());
 
 	// crossover their elements (keep the result in donor_vector)
 	for(uint i = 0; i < flp1->realValue.size(); i++) {

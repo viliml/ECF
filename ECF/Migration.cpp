@@ -45,8 +45,8 @@ bool Migration::initialize(StateP state)
 		migFrequency_ = 0;
 	}
 
-	selOp_.push_back(static_cast<SelectionOperatorP> (new SelBestOp));
-	selOp_.push_back(static_cast<SelectionOperatorP> (new SelRandomOp));
+	selOp_.push_back(std::make_shared<SelBestOp>());
+	selOp_.push_back(std::make_shared<SelRandomOp>());
 
 	selOp_[BEST]->initialize(state);
 	selOp_[RANDOM]->initialize(state);

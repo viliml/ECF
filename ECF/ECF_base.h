@@ -4,13 +4,13 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
-#include "boost/smart_ptr.hpp"
+#include <memory>
 #include "xml/xmlParser.h"
 #ifdef _MPI
 #include "mpi.h"
 #endif
 
-typedef boost::shared_ptr<void>  voidP;
+typedef std::shared_ptr<void>  voidP;
 typedef unsigned int uint;
 
 // base:

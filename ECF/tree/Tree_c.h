@@ -15,7 +15,7 @@ namespace Tree
  */
 
 class PrimitiveSet;
-typedef boost::shared_ptr<PrimitiveSet> PrimitiveSetP;
+typedef std::shared_ptr<PrimitiveSet> PrimitiveSetP;
 
 /**
  * \ingroup genotypes tree
@@ -41,7 +41,7 @@ protected:
 public:
 	Tree();
 	~Tree();
-	Tree* copy();
+	GenotypeP copy() override;
 
 	void growBuild(PrimitiveSetP primitiveSet);
 	void fullBuild(PrimitiveSetP primitiveSet);
@@ -49,8 +49,11 @@ public:
 	void execute(void*);
 	void addNode(Node* node);
 	void addNode(NodeP node);
-	void setTerminalValue(std::string, void*);
-	void getTerminalValue(std::string, void*);
+    void setTerminalValue(const std::string&, void*);
+    void setTerminalValue(uint, void*);
+    uint getTerminalIndex(const std::string&);
+    void getTerminalValue(const std::string&, void*);
+    void getTerminalValue(uint, void*);
 	void write(XMLNode&);
 	void read(XMLNode&);
 	void registerParameters(StateP);
@@ -80,7 +83,7 @@ public:
 	uint initMinDepth_;          ///< min allowed Tree depth at initialization (minDepth_ used if not defined)
 };
 }
-typedef boost::shared_ptr<Tree::Tree> TreeP;
+typedef std::shared_ptr<Tree::Tree> TreeP;
 
 #endif
 

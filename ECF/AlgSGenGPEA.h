@@ -25,6 +25,6 @@ protected:
 	SelRandomOpP selRandomOp;
 	SelBestOpP selBestOp;
 };
-typedef boost::shared_ptr<AlgSGenGpea> AlgSGenGpeaP;
+typedef std::shared_ptr<AlgSGenGpea> AlgSGenGpeaP;
 
 #endif // AlgSGenGPEA_h

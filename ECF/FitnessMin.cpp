@@ -9,9 +9,9 @@ bool FitnessMin::isBetterThan(FitnessP other){
 }
 
 
-FitnessMin* FitnessMin::copy()
-{	FitnessMin *newObject = new FitnessMin(*this);
-	return newObject;
+FitnessP FitnessMin::copy()
+{
+    return std::make_shared<FitnessMin>(*this);
 }
 
 

@@ -40,7 +40,7 @@ bool Cartesian::initialize(StateP state)
 	{ }
 
 	//function nodes must be able to work with defined data type
-	funcSet = static_cast<FunctionSetP> (new FunctionSet(name));
+	funcSet = std::make_shared<FunctionSet>(name);
 
 	sptr = getParameterValue(state, "numinputconns");
 	name = *((string*) sptr.get());
@@ -235,9 +235,9 @@ bool Cartesian::initialize(StateP state)
 	return true;
 }
 
-Cartesian* Cartesian::copy()
+GenotypeP Cartesian::copy()
 {
-	Cartesian *newObject = new Cartesian(*this);
+	auto newObject = std::make_shared<Cartesian>(*this);
 
 	//create new copy of existing genotype
 	for(int i = 0; i < (int) this->size(); i++) {

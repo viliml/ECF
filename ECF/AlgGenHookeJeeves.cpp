@@ -15,9 +15,9 @@ GenHookeJeeves::GenHookeJeeves()
 	areGenotypesAdded_ = false;
 
 	// create selection operators needed
-	selFitPropOp_ = static_cast<SelectionOperatorP> (new SelFitnessProportionalOp);
-	selBestOp_    = static_cast<SelectionOperatorP> (new SelBestOp);
-	selRandomOp_  = static_cast<SelectionOperatorP> (new SelRandomOp);
+	selFitPropOp_ = std::make_shared<SelFitnessProportionalOp>();
+	selBestOp_    = std::make_shared<SelBestOp>();
+	selRandomOp_  = std::make_shared<SelRandomOp>();
 }
 
 
@@ -37,7 +37,7 @@ bool GenHookeJeeves::initialize(StateP state)
 	// algorithm accepts a single FloatingPoint or Binary genotype 
 	// or a genotype derived from the abstract RealValueGenotype class
 	GenotypeP activeGenotype = state->getGenotypes()[0];
-	RealValueGenotypeP rv = boost::dynamic_pointer_cast<RealValueGenotype> (activeGenotype);
+	RealValueGenotypeP rv = std::dynamic_pointer_cast<RealValueGenotype> (activeGenotype);
 	if(!rv) {
 		ECF_LOG_ERROR(state, "Error: This algorithm accepts only a RealValueGenotype derived genotype! (FloatingPoint or Binary)");
 		throw ("");
@@ -110,8 +110,8 @@ bool GenHookeJeeves::advanceGeneration(StateP state, DemeP deme)
 {
 	// fitnesi i pomocna jedinka za postupak pretrazivanja (koristimo Fitness objekte tako da radi i za min i max probleme)
 	FitnessP neighbor[2];
-	neighbor[0] = (FitnessP) (*deme)[0]->fitness->copy();
-	neighbor[1] = (FitnessP) (*deme)[0]->fitness->copy();
+	neighbor[0] = (*deme)[0]->fitness->copy();
+	neighbor[1] = (*deme)[0]->fitness->copy();
 	IndividualP temp (new Individual(state));
 
 	uint mutacija = 0;
@@ -124,16 +124,16 @@ bool GenHookeJeeves::advanceGeneration(StateP state, DemeP deme)
 
 		IndividualP ind = deme->at(i);
 		// bazna tocka:
-		FloatingPointP x = boost::static_pointer_cast<FloatingPoint::FloatingPoint> (ind->getGenotype(0));
+		FloatingPointP x = std::static_pointer_cast<FloatingPoint::FloatingPoint> (ind->getGenotype(0));
 		// pocetna tocka pretrazivanja:
-		FloatingPointP xn = boost::static_pointer_cast<FloatingPoint::FloatingPoint> (ind->getGenotype(1));
+		FloatingPointP xn = std::static_pointer_cast<FloatingPoint::FloatingPoint> (ind->getGenotype(1));
 
 		FitnessP finalFit;
 		// je li prva iteracija uz ovaj deltax?
 		if(changed_[i]) {
-			xn = (FloatingPointP) x->copy();
+			xn = std::static_pointer_cast<FloatingPoint::FloatingPoint> (x->copy());
 			changed_[i] = false;
-			finalFit = (FitnessP) ind->fitness->copy();
+			finalFit = ind->fitness->copy();
 		}
 		// ako nije, trebamo evaluirati i pocetnu tocku pretrazivanja
 		else {
@@ -200,7 +200,7 @@ bool GenHookeJeeves::advanceGeneration(StateP state, DemeP deme)
 
 		// je li tocka nakon pretrazivanja bolja od bazne tocke?
 		if(finalFit->isBetterThan(ind->fitness)) {
-			FloatingPointP xnc (xn->copy());
+			FloatingPointP xnc (std::static_pointer_cast<FloatingPoint::FloatingPoint>(xn->copy()));
 			// preslikavanje:
 			for(uint dim = 0; dim < x->realValue.size(); dim++)
 				xn->realValue[dim] = 2 * xn->realValue[dim] - x->realValue[dim];
@@ -219,7 +219,7 @@ bool GenHookeJeeves::advanceGeneration(StateP state, DemeP deme)
 		// nije, smanji deltax i resetiraj tocku pretrazivanja
 		else {
 			delta_[i] /= 2;
-			xn = (FloatingPointP) x->copy();
+			xn = std::static_pointer_cast<FloatingPoint::FloatingPoint>(x->copy());
 			changed_[i] = true;
 		}
 
@@ -235,7 +235,7 @@ bool GenHookeJeeves::advanceGeneration(StateP state, DemeP deme)
 				convergedTotal_++;
 
 				// zapisi generaciju u kojoj je jedinka konvergirala
-				FloatingPointP fp = boost::static_pointer_cast<FloatingPoint::FloatingPoint> (ind->getGenotype(2));
+				FloatingPointP fp = std::static_pointer_cast<FloatingPoint::FloatingPoint> (ind->getGenotype(2));
 				fp->realValue[0] = (double) state->getGenerationNo();
 			}
 

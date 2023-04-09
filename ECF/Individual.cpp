@@ -16,7 +16,7 @@ bool Individual::initialize(StateP state)
 
 	// copy genotypes from State
 	for(uint i = 0; i < state->getGenotypes().size(); i++) {
-		this->push_back(static_cast<GenotypeP> (state->getGenotypes()[i]->copy()));
+		this->push_back(state->getGenotypes()[i]->copy());
 		(*this)[i]->setGenotypeId(i);
 	}
 
@@ -28,15 +28,15 @@ bool Individual::initialize(StateP state)
 }
 
 
-Individual* Individual::copy()
+IndividualP Individual::copy()
 {
-	Individual *c = new Individual;
+	auto c = std::make_shared<Individual>();
 	c->state_ = state_;
 	c->cid = cid;
 	if(fitness)
-		c->fitness = (FitnessP) this->fitness->copy();
-	for(uint i = 0; i < this->size(); i++)
-		c->push_back((GenotypeP) (this->at(i)->copy()));
+		c->fitness = this->fitness->copy();
+	for(const auto & genotype : *this)
+		c->push_back(genotype->copy());
 	return c;
 }
 

@@ -18,7 +18,7 @@ public:
 	bool initialize() {return true;};
 	bool reset() {return true;};
 };
-typedef boost::shared_ptr<MuxEvalOp> MuxEvalOpP;
+typedef std::shared_ptr<MuxEvalOp> MuxEvalOpP;
 
 GenotypeP MuxEvalOp::getInput(){
 	BitStringP input = static_cast<BitStringP> (new BitString::BitString);
@@ -32,8 +32,8 @@ FitnessP MuxEvalOp::evaluate (IndividualP ind){
 	// za mux problem, to znaci usporediti ulaz i odziv (akciju) sustava
 	
 	double reward = 0;
-	BitStringP input = boost::dynamic_pointer_cast<BitString::BitString> (ind->getGenotype(0));
-	BitStringP output = boost::dynamic_pointer_cast<BitString::BitString> (ind->getGenotype(1));
+	BitStringP input = std::dynamic_pointer_cast<BitString::BitString> (ind->getGenotype(0));
+	BitStringP output = std::dynamic_pointer_cast<BitString::BitString> (ind->getGenotype(1));
 
 	// dekodiramo ulaz
 	// za sada, hard-coded gledamo prvih 6 bitova (4/1 mux)

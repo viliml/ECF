@@ -10,19 +10,18 @@ namespace GEP{
 	}
 
 	// mandatory: must provide copy method
-	GEPChromosome* GEPChromosome::copy()
+    GenotypeP GEPChromosome::copy()
 	{
-		GEPChromosome *newObject = new GEPChromosome(*this);
-		return newObject;
+		return std::make_shared<GEPChromosome>(*this);
 	}
 
 	// optional: declare crx operators (if not, no crossover will be performed)
 	std::vector<CrossoverOpP> GEPChromosome::getCrossoverOp()
 	{
 		std::vector<CrossoverOpP> crx;
-		crx.push_back(static_cast<CrossoverOpP> (new GEPChromosomeCrsOnePoint));
-		crx.push_back(static_cast<CrossoverOpP> (new GEPChromosomeCrsTwoPoint));
-		crx.push_back(static_cast<CrossoverOpP> (new GEPChromosomeCrsGene));
+		crx.push_back(std::make_shared<GEPChromosomeCrsOnePoint>());
+		crx.push_back(std::make_shared<GEPChromosomeCrsTwoPoint>());
+		crx.push_back(std::make_shared<GEPChromosomeCrsGene>());
 		return crx;
 	}
 
@@ -30,8 +29,8 @@ namespace GEP{
 	std::vector<MutationOpP> GEPChromosome::getMutationOp()
 	{
 		std::vector<MutationOpP> mut;
-		mut.push_back(static_cast<MutationOpP> (new GEPChromosomeMutOp));
-		mut.push_back(static_cast<MutationOpP> (new GEPChromosomeMutGauss));
+		mut.push_back(std::make_shared<GEPChromosomeMutOp>());
+		mut.push_back(std::make_shared<GEPChromosomeMutGauss>());
 		return mut;
 	}
 
@@ -87,12 +86,12 @@ namespace GEP{
 	{
 		// 'homegep' is a Gep instance kept in the State;
 		// we use it to link the PrimitiveSet to it and store the parameters
-		GEPChromosome* homegep = (GEPChromosome*)state->getGenotypes()[genotypeId_].get();
+		GEPChromosomeP homegep = std::static_pointer_cast<GEPChromosome>(state->getGenotypes()[genotypeId_]);
 		state_ = state;
 
 		// if we are the first one to initialize
 		if (!homegep->primitiveSet_){
-			initializeFirst(homegep);
+			initializeFirst(homegep.get());
 		}
 		// in any case, read parameters from from hometree
 		this->primitiveSet_ = homegep->primitiveSet_;
@@ -118,15 +117,15 @@ namespace GEP{
 		if (home == NULL){
 			return;
 		}
-		home->primitiveSet_ = static_cast<Tree::PrimitiveSetP> (new Tree::PrimitiveSet);
+		home->primitiveSet_ = std::make_shared<Tree::PrimitiveSet>();
 		home->primitiveSet_->initialize(state_);
 		this->primitiveSet_ = home->primitiveSet_;
 
-		home->linkFunctionSet_ = static_cast<Tree::PrimitiveSetP> (new Tree::PrimitiveSet);
+		home->linkFunctionSet_ = std::make_shared<Tree::PrimitiveSet>();
 		home->linkFunctionSet_->initialize(state_);
 		this->linkFunctionSet_ = home->linkFunctionSet_;
 
-		home->ercSet_ = static_cast<Tree::PrimitiveSetP> (new Tree::PrimitiveSet);
+		home->ercSet_ = std::make_shared<Tree::PrimitiveSet>();
 		home->ercSet_->initialize(state_);
 		this->ercSet_ = home->ercSet_;
 
@@ -221,7 +220,6 @@ namespace GEP{
 		}
 		// set default terminal type
 		Tree::Primitives::terminal_type currentType = Tree::Primitives::Double;
-		Tree::type_iter typeIter;
 
 		// read terminal set from the configuration
 
@@ -231,7 +229,7 @@ namespace GEP{
 
 		while (tNames >> name) {
 			// read current terminal type (if set)
-			typeIter = primitiveSet_->mTypeNames_.find(name);
+			auto typeIter = primitiveSet_->mTypeNames_.find(name);
 			if (typeIter != primitiveSet_->mTypeNames_.end()) {
 				currentType = typeIter->second;
 				continue;
@@ -424,7 +422,7 @@ namespace GEP{
 
 /*
 		this->clear();
-		//this->primitiveSet_ = static_cast<Tree::PrimitiveSetP> (new Tree::PrimitiveSet);
+		//this->primitiveSet_ = std::make_shared<Tree::PrimitiveSet>();
 		//this->primitiveSet_->initialize(state_);
 		XMLCSTR genesStr = xGEPChromosome.getAttribute("genes");
 		uint size = str2uint(genesStr);
@@ -528,11 +526,11 @@ namespace GEP{
 			*/
 	}
 
-	Tree::Tree* GEPChromosome::toTree(uint gene)
+	TreeP GEPChromosome::toTree(uint gene)
 	{
 		ECF_LOG(this->state_, 5, "Performing GEP -> Tree conversion...");
 
-		Tree::Tree* tree = new Tree::Tree();
+		auto tree = std::make_shared<Tree::Tree>();
 		// Copy primitive set
 		tree->primitiveSet_ = this->primitiveSet_;
 
@@ -573,14 +571,14 @@ namespace GEP{
 		while (idx.at(0) == geneOffset){
 			// Read and this node to GP expression, if it hasn't been visited yet
 			if (!visited.at(idx.at(level))){
-				Tree::NodeP GEPnode = static_cast<Tree::NodeP> (new Tree::Node(this->at(idx.at(level))));
+				Tree::NodeP GEPnode = std::make_shared<Tree::Node>(this->at(idx.at(level)));
 				// If it is an ERC placeholder, replace with the next ERC
 				if (GEPnode->primitive_->getName() == "?"){
-					GEPnode = static_cast<Tree::NodeP> (new Tree::Node(this->at(ercIdx+constants.at(idx.at(level)))));
+					GEPnode = std::make_shared<Tree::Node>(this->at(ercIdx+constants.at(idx.at(level))));
 				}
 				args[level] = GEPnode->primitive_->getNumberOfArguments();
 				// Push node into Tree representation
-				Tree::NodeP node = static_cast<Tree::NodeP> (new Tree::Node(GEPnode));
+				Tree::NodeP node = std::make_shared<Tree::Node>(GEPnode);
 				tree->addNode(node);
 				visited.at(idx.at(level)) = true;
 			}
@@ -607,11 +605,11 @@ namespace GEP{
 		return tree;
 	}
 
-	Tree::Tree* GEPChromosome::makeCellTree()
+	TreeP GEPChromosome::makeCellTree()
 	{
 		ECF_LOG(this->state_, 5, "Performing GEP -> Tree conversion at the cell level...");
 
-		Tree::Tree* tree = new Tree::Tree();
+		auto tree = std::make_shared<Tree::Tree>();
 		// Copy primitive set
 		tree->primitiveSet_ = this->linkFunctionSet_;
 
@@ -640,10 +638,10 @@ namespace GEP{
 		while (idx.at(0) == geneOffset){
 			// Read and this node to GP expression, if it hasn't been visited yet
 			if (!visited.at(idx.at(level))){
-				Tree::NodeP GEPnode = static_cast<Tree::NodeP> (new Tree::Node(this->at(idx.at(level))));
+				Tree::NodeP GEPnode = std::make_shared<Tree::Node>(this->at(idx.at(level)));
 				args[level] = GEPnode->primitive_->getNumberOfArguments();
 				// Push node into Tree representation
-				Tree::NodeP node = static_cast<Tree::NodeP> (new Tree::Node(GEPnode));
+				Tree::NodeP node = std::make_shared<Tree::Node>(GEPnode);
 				tree->addNode(node);
 				visited.at(idx.at(level)) = true;
 			}
@@ -673,7 +671,7 @@ namespace GEP{
 		this->subtrees.clear();
 		this->cellTree = this->makeCellTree();
 		for (uint i = 0; i < this->genes; i++){
-			Tree::Tree *subtree = this->toTree(i);
+			TreeP subtree = this->toTree(i);
 			this->subtrees.push_back(subtree);
 		}
 	}
@@ -686,7 +684,7 @@ namespace GEP{
 		// TODO: detect which genes are actually used so as to not evaluate unneeded ones
 		double tmp = 0;
 		for (uint i = 0; i < this->genes; i++){
-			Tree::Tree *subtree = this->subtrees.at(i);
+			TreeP subtree = this->subtrees.at(i);
 			subtree->execute(&tmp);
 			// Set the terminal values according to the subtrees
 			this->cellTree->setTerminalValue(GEP_GENE_PREFIX + uint2str(i), &tmp);
@@ -701,7 +699,7 @@ namespace GEP{
 	* \param name	terminal's name
 	* \param value	terminal's value
 	*/
-	void GEPChromosome::setTerminalValue(std::string name, void* value)
+	void GEPChromosome::setTerminalValue(const std::string &name, void* value)
 	{
 		Tree::PrimitiveP term = primitiveSet_->getTerminalByName(name);
 		if (term == Tree::PrimitiveP()) {

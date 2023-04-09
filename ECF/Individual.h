@@ -4,6 +4,9 @@
 #include "Genotype.h"
 #include "Fitness.h"
 
+class Individual;
+typedef std::shared_ptr<Individual> IndividualP;
+
 /**
  * \ingroup evol population
  * \brief Individual class - inherits a vector of Genotype objects.
@@ -29,7 +32,7 @@ public:
 
 	std::string toString();	//!< output individual to string
 
-	Individual* copy();		//!< create a copy of the individual
+	IndividualP copy();		//!< create a copy of the individual
 
 	GenotypeP getGenotype(uint index = 0);	//!< return genotype with given index
 
@@ -41,7 +44,6 @@ public:
 
 	uint cid;	//!< coherence index, used in asynchronous parallel algoritmhs
 };
-typedef boost::shared_ptr<Individual> IndividualP;
 
 #endif // Individual_h
 

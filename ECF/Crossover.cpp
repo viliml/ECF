@@ -119,9 +119,9 @@ bool Crossover::mate(IndividualP ind1, IndividualP ind2, IndividualP child)
 			return false;
 		// copy unchanged genotypes from parents
 		for(uint i = 0; i < iGenotype; i++)
-			child->at(i) = (GenotypeP) ind1->at(i)->copy();
+			child->at(i) = ind1->at(i)->copy();
 		for(uint i = iGenotype + 1; i < child->size(); i++)
-			child->at(i) = (GenotypeP) ind2->at(i)->copy();
+			child->at(i) = ind2->at(i)->copy();
 		// choose operator
 		uint iOperator;
 		if(opProb[iGenotype][0] < 0)

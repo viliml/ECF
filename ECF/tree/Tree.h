@@ -17,6 +17,10 @@
 #include "Neg.h"
 #include "Max.h"
 #include "Min.h"
+#include "Pow.h"
+#include "Root.h"
+#include "Exp.h"
+#include "Log.h"
 
 #endif
 

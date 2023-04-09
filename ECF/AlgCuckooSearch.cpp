@@ -11,7 +11,7 @@
 CuckooSearch::CuckooSearch()
 {
 	name_ = "CuckooSearch";
-	selBestOp = static_cast<SelectionOperatorP> (new SelBestOp);
+	selBestOp = std::make_shared<SelBestOp>();
 }
 
 
@@ -44,7 +44,7 @@ bool CuckooSearch::initialize(StateP state)
 	// algorithm accepts a single FloatingPoint or Binary genotype 
 	// or a genotype derived from the abstract RealValueGenotype class
 	GenotypeP activeGenotype = state->getGenotypes()[0];
-	RealValueGenotypeP rv = boost::dynamic_pointer_cast<RealValueGenotype> (activeGenotype);
+	RealValueGenotypeP rv = std::dynamic_pointer_cast<RealValueGenotype> (activeGenotype);
 	if(!rv) {
 		ECF_LOG_ERROR(state, "Error: Cuckoo Search algorithm accepts only a RealValueGenotype derived genotype! (FloatingPoint or Binary)");
 		throw ("");
@@ -63,13 +63,13 @@ bool CuckooSearch::advanceGeneration(StateP state, DemeP deme)
 	boost::normal_distribution<> > var_nor(rng, nd);
 
 	IndividualP best = selBestOp->select(*deme);
-	FloatingPointP bestFp = boost::static_pointer_cast<FloatingPoint::FloatingPoint> (best->getGenotype(0));
+	FloatingPointP bestFp = std::static_pointer_cast<FloatingPoint::FloatingPoint> (best->getGenotype(0));
 
 	// cuckoos via Levy flights (by Mantegna's algorithm)
 	// new individual is added to population only if it is better than original individual
 	for (uint i = 0; i < deme->size(); i++) {
 		IndividualP trial = (IndividualP)deme->at(i)->copy();
-		FloatingPointP trialFp = boost::static_pointer_cast<FloatingPoint::FloatingPoint> (trial->getGenotype(0));
+		FloatingPointP trialFp = std::static_pointer_cast<FloatingPoint::FloatingPoint> (trial->getGenotype(0));
 		for (uint j = 0; j < numDimension; j++)	{
 			double u = var_nor() * sigma;
 			double v = var_nor();
@@ -104,9 +104,9 @@ bool CuckooSearch::advanceGeneration(StateP state, DemeP deme)
 	double randNum = (double)rand() / RAND_MAX;
 	for (uint i = 0; i < deme->size(); i++) {
 		IndividualP trial = (IndividualP)deme->at(i)->copy();
-		FloatingPointP trialFp1 = boost::static_pointer_cast<FloatingPoint::FloatingPoint> (nest1.at(i)->getGenotype(0));
-		FloatingPointP trialFp2 = boost::static_pointer_cast<FloatingPoint::FloatingPoint> (nest2.at(i)->getGenotype(0));
-		FloatingPointP trialFp = boost::static_pointer_cast<FloatingPoint::FloatingPoint> (trial->getGenotype(0));
+		FloatingPointP trialFp1 = std::static_pointer_cast<FloatingPoint::FloatingPoint> (nest1.at(i)->getGenotype(0));
+		FloatingPointP trialFp2 = std::static_pointer_cast<FloatingPoint::FloatingPoint> (nest2.at(i)->getGenotype(0));
+		FloatingPointP trialFp = std::static_pointer_cast<FloatingPoint::FloatingPoint> (trial->getGenotype(0));
 
 		for (uint j = 0; j < numDimension; j++) {
 			if ((double)rand() / RAND_MAX < pa) {

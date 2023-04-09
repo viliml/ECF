@@ -19,6 +19,6 @@ protected:
 	std::vector<IndividualP> myJob;
 	uint nTournament;	// tournament size
 };
-typedef boost::shared_ptr<AlgAEliGpea2> AlgAEliGpea2P;
+typedef std::shared_ptr<AlgAEliGpea2> AlgAEliGpea2P;
 
 #endif // AlgAEliGPEA2_h

@@ -22,5 +22,5 @@ namespace GEP{
 		boost::lagged_fibonacci607 engine_;
 	};
 }
-typedef boost::shared_ptr<GEP::GEPChromosomeMutGauss> GEPChromosomeMutGaussP;
+typedef std::shared_ptr<GEP::GEPChromosomeMutGauss> GEPChromosomeMutGaussP;
 #endif // GEPChromosomeMutGauss_h

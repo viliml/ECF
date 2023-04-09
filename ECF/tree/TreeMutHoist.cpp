@@ -23,10 +23,10 @@ bool TreeMutHoist::initialize(StateP state)
 
 bool TreeMutHoist::mutate(GenotypeP gene)
 {
-	Tree* tree = (Tree*) (gene.get());
+	TreeP tree = std::static_pointer_cast<Tree>(gene);
 	
 	// first of all, make a copy of tree and clear the original
-	Tree* copyTree = tree->copy();
+	TreeP copyTree = std::static_pointer_cast<Tree>(tree->copy());
 	tree->clear();
 	
 	// select random node in copied tree, it will be the root node for new tree
@@ -35,17 +35,16 @@ bool TreeMutHoist::mutate(GenotypeP gene)
 	
 	// copy chosen subtree to original
 	for(uint i = 0; i < chosenNodeSubtreeSize; i++) {
-		NodeP node = static_cast<NodeP> (new Node(copyTree->at(chosenNode + i)->primitive_));
+		NodeP node = std::make_shared<Node>(copyTree->at(chosenNode + i)->primitive_);
 		tree->addNode(node);
 	}
 	
 	tree->update();
-	delete copyTree;
 	
 	std::stringstream log;
 	log << "TreeMutHoist successful (hoisted subtree = ";
-	for(uint i = 0; i < tree->size(); i++)
-		log << tree->at(i)->primitive_->getName() << " ";
+	for(const auto & node : *tree)
+		log << node->primitive_->getName() << " ";
 	log << ")";
 	ECF_LOG(state_, 5, log.str());
 

@@ -21,9 +21,9 @@ bool FloatingPointCrsArithmeticSingle::initialize(StateP state)
 
 bool FloatingPointCrsArithmeticSingle::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-	FloatingPoint* p1 = (FloatingPoint*) (gen1.get());
-	FloatingPoint* p2 = (FloatingPoint*) (gen2.get());
-	FloatingPoint* ch = (FloatingPoint*) (child.get());
+	FloatingPointP p1 = std::static_pointer_cast<FloatingPoint>(gen1);
+	FloatingPointP p2 = std::static_pointer_cast<FloatingPoint>(gen2);
+	FloatingPointP ch = std::static_pointer_cast<FloatingPoint>(child);
 
 	double a = state_->getRandomizer()->getRandomDouble();
 	uint dimensionCrs = state_->getRandomizer()->getRandomInteger((int) p1->realValue.size());

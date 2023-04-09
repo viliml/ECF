@@ -129,7 +129,7 @@ public:
 
 		// HOW TO: access individual data
 		// get FloatingPoint genotype from individual
-		FloatingPointP fp = boost::static_pointer_cast<FloatingPoint::FloatingPoint> (trial->getGenotype(0));
+		FloatingPointP fp = std::static_pointer_cast<FloatingPoint::FloatingPoint> (trial->getGenotype(0));
 		// or use ordinary pointers:
 		//FloatingPoint::FloatingPoint* fp = static_cast<FloatingPoint::FloatingPoint*> (trial->getGenotype().get());
 
@@ -149,7 +149,7 @@ public:
 		return true;
 	}
 };
-typedef boost::shared_ptr<MyAlg> MyAlgP;
+typedef std::shared_ptr<MyAlg> MyAlgP;
 
 
 
@@ -229,10 +229,10 @@ int main(int argc, char **argv)
 	for(uint i = 0; i < state->getPopulation()->getLocalDeme()->getSize(); i++) {
 		IndividualP ind = state->getPopulation()->getLocalDeme()->at(i);
 		fajl << ind->fitness->getValue() << "\t";
-		FloatingPointP fp = boost::static_pointer_cast<FloatingPoint::FloatingPoint> (ind->getGenotype());
+		FloatingPointP fp = std::static_pointer_cast<FloatingPoint::FloatingPoint> (ind->getGenotype());
 		for(uint dim = 0; dim < fp->realValue.size(); dim++)
 			fajl << fp->realValue[dim] << "\t";
-		fp = boost::static_pointer_cast<FloatingPoint::FloatingPoint> (ind->getGenotype(2));
+		fp = std::static_pointer_cast<FloatingPoint::FloatingPoint> (ind->getGenotype(2));
 		fajl << fp->realValue[0];
 		fajl << "\n";
 	}
@@ -261,7 +261,7 @@ int main(int argc, char **argv)
 	myfile.open ("paretoFront.txt");
 	DemeP deme = state->getPopulation()->getLocalDeme();
 	for (uint i = 0; i<deme->size(); i++) {
-		MOFitnessP fitness = boost::static_pointer_cast<MOFitness> (deme->at(i)->fitness);
+		MOFitnessP fitness = std::static_pointer_cast<MOFitness> (deme->at(i)->fitness);
 		for (uint f = 0; f < fitness->size(); f++)
 			myfile << fitness->at(f)->getValue() << "\t";
 		myfile << "\n";
@@ -343,7 +343,7 @@ int main(int argc, char **argv)
 //	argc = 2;
 //	argv[1] = "./examples/GPSymbReg/parametri.txt";
 
-	StateP state = static_cast<StateP> (new State);
+	StateP state = std::make_shared<State>();
 
 	state->setEvalOp(static_cast<EvaluateOpP> (new SymbRegEvalOp));
 
@@ -405,7 +405,7 @@ int main(int argc, char **argv)
 //	argc = 2;
 //	argv[1] = "./examples/GATSP/parameters.txt";
 
-	StateP state = static_cast<StateP> (new State);
+	StateP state = std::make_shared<State>();
 
 	state->setEvalOp(static_cast<EvaluateOpP> (new TSPEvalOp));
 
@@ -450,7 +450,7 @@ int main(int argc, char **argv)
 	//argv[1] = "./examples/GPScheduling/parameters.txt";
 	argv[1] = "./parameters.txt";
 
-	StateP state = static_cast<StateP> (new State);
+	StateP state = std::make_shared<State>();
 
 	state->setEvalOp(static_cast<EvaluateOpP> (new SchedulingEvalOp));
 
@@ -479,7 +479,7 @@ int main(int argc, char **argv)
 int main(int argc, char **argv)
 {
 	argc = 2;
-	StateP state = static_cast<StateP> (new State);
+	StateP state = std::make_shared<State>();
 	MazeEnvP maze;
 
 	//Multistep:

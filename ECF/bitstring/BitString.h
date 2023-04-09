@@ -63,25 +63,24 @@ public:
 		return true;
 	}
 
-	BitString* copy()
+	GenotypeP copy() override
 	{
-		BitString *newObject = new BitString(*this);
-		return newObject;
+		return std::make_shared<BitString>(*this);
 	}
 
 	std::vector<CrossoverOpP> getCrossoverOp()
 	{
 		std::vector<CrossoverOpP> crx;
-		crx.push_back(static_cast<CrossoverOpP> (new BitStringCrsOnePoint));
-		crx.push_back(static_cast<CrossoverOpP> (new BitStringCrsUniform));
+		crx.push_back(std::make_shared<BitStringCrsOnePoint>());
+		crx.push_back(std::make_shared<BitStringCrsUniform>());
 		return crx;
 	}
 
 	std::vector<MutationOpP> getMutationOp()
 	{
 		std::vector<MutationOpP> mut;
-		mut.push_back(static_cast<MutationOpP> (new BitStringMutSimple));
-		mut.push_back(static_cast<MutationOpP> (new BitStringMutMix));
+		mut.push_back(std::make_shared<BitStringMutSimple>());
+		mut.push_back(std::make_shared<BitStringMutMix>());
 		return mut;
 	}
 
@@ -107,7 +106,7 @@ public:
 };
 }
 
-typedef boost::shared_ptr<BitString::BitString> BitStringP;
+typedef std::shared_ptr<BitString::BitString> BitStringP;
 
 #endif // BitString_h
 

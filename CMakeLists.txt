@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(ECF)
 
 # try this if environment variable is not set
-set (BOOST_ROOT "C:/Program Files/boost_1_74_0")
+set (BOOST_ROOT "C:/misc/boost_1_81_0")
 
 find_package(Boost)
 if(Boost_FOUND)
@@ -13,9 +13,10 @@ endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../debug)
-endif()
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../release)
+else()
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ../test)
 endif()
 
 set(SOURCE_FILES
@@ -123,6 +124,13 @@ set(SOURCE_FILES
     ECF/floatingpoint/FloatingPointCrsSbx.h
     ECF/floatingpoint/FloatingPointMutSimple.cpp
     ECF/floatingpoint/FloatingPointMutSimple.h
+    ECF/gep/AlgGEP.cpp
+    ECF/gep/GEPChromosome.cpp
+    ECF/gep/GEPChromosomeCrsGene.cpp
+    ECF/gep/GEPChromosomeCrsOnePoint.cpp
+    ECF/gep/GEPChromosomeCrsTwoPoint.cpp
+    ECF/gep/GEPChromosomeMutGauss.cpp
+    ECF/gep/GEPChromosomeMutOp.cpp
     ECF/permutation/Permutation.cpp
     ECF/permutation/Permutation.h
     ECF/permutation/PermutationCrsCOSA.cpp
@@ -160,7 +168,10 @@ set(SOURCE_FILES
     ECF/tree/Add.h
     ECF/tree/Cos.cpp
     ECF/tree/Cos.h
-    ECF/tree/Div.h
+    ECF/tree/Exp.h
+    ECF/tree/Exp.cpp
+    ECF/tree/Log.h
+    ECF/tree/Log.cpp
     ECF/tree/Max.h
     ECF/tree/Min.h
     ECF/tree/Mul.h
@@ -311,6 +322,8 @@ set(SOURCE_FILES
 
 add_library(ECF ${SOURCE_FILES})
 
-set_target_properties(ECF
-        PROPERTIES PREFIX "lib"
-        SUFFIX ".a")
+if(MINGW)
+    set_target_properties(ECF
+            PROPERTIES PREFIX "lib"
+            SUFFIX ".a")
+endif()

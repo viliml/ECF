@@ -7,9 +7,9 @@ namespace IntGenotype
 	
 		bool IntGenotypeCrxAverage::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child) {
 
-			IntGenotype* p1 = (IntGenotype*)(gen1.get());
-			IntGenotype* p2 = (IntGenotype*)(gen2.get());
-			IntGenotype* ch = (IntGenotype*)(child.get());
+			IntGenotypeP p1 = std::static_pointer_cast<IntGenotype>(gen1);
+			IntGenotypeP p2 = std::static_pointer_cast<IntGenotype>(gen2);
+			IntGenotypeP ch = std::static_pointer_cast<IntGenotype>(child);
 
 			for (uint i = 0; i < p1->intValues.size(); i++) {
 				ch->intValues[i] = (int) (0.5 * (p1->intValues[i]) + 0.5 * (p2->intValues[i]));

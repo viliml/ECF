@@ -22,6 +22,6 @@ public:
 protected:
 	boost::lagged_fibonacci607 engine_;
 };
-typedef boost::shared_ptr<TreeMutGauss> TreeMutGaussP;
+typedef std::shared_ptr<TreeMutGauss> TreeMutGaussP;
 }
 #endif // TreeMutGauss_h

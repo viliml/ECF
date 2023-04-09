@@ -20,7 +20,7 @@ public:
 	FitnessP evaluate (IndividualP ind);
 };
 
-typedef boost::shared_ptr<SingleObjMazeEnv> SingleObjMazeEnvP;
+typedef std::shared_ptr<SingleObjMazeEnv> SingleObjMazeEnvP;
 
 
 SingleObjMazeEnv::SingleObjMazeEnv(StateP s) : MazeEnv(s){

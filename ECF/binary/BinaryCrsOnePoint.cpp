@@ -20,9 +20,9 @@ bool BinaryCrsOnePoint::initialize(StateP state)
 
 bool BinaryCrsOnePoint::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-	Binary* p1 = (Binary*) (gen1.get());
-	Binary* p2 = (Binary*) (gen2.get());
-	Binary* ch = (Binary*) (child.get());
+	BinaryP p1 = std::static_pointer_cast<Binary>(gen1);
+	BinaryP p2 = std::static_pointer_cast<Binary>(gen2);
+	BinaryP ch = std::static_pointer_cast<Binary>(child);
 
 	uint bitCrs = state_->getRandomizer()->getRandomInteger(p1->getNumBits());
 

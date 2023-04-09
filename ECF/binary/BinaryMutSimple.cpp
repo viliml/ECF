@@ -30,7 +30,7 @@ bool BinaryMutSimple::initialize(StateP state)
 
 bool BinaryMutSimple::mutate(GenotypeP gene)
 {
-	Binary* bin = (Binary*) (gene.get());
+	BinaryP bin = std::static_pointer_cast<Binary>(gene);
 
 	// invert all bits with 'bitProb_' probability
 	if(bUseBitProb_) {

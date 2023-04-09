@@ -30,7 +30,7 @@ public:
 	
 };
 
-typedef boost::shared_ptr<ThreeObjMazeEnv> ThreeObjMazeEnvP;
+typedef std::shared_ptr<ThreeObjMazeEnv> ThreeObjMazeEnvP;
 
 ThreeObjMazeEnv::ThreeObjMazeEnv(StateP s, double moveCost) : MazeEnv(s){
 	
@@ -64,7 +64,7 @@ GenotypeP ThreeObjMazeEnv::getInput() {
 	std::cout << "Maintenance level: " << maintenance << std::endl;
 #endif
 
-	input = boost::dynamic_pointer_cast<BitString::BitString> (MazeEnv::getInput());
+	input = std::dynamic_pointer_cast<BitString::BitString> (MazeEnv::getInput());
 	input->bits[24] = (energy > 0.5);
 	input->bits[25] = (maintenance > 0.5);
 
@@ -141,7 +141,7 @@ FitnessP ThreeObjMazeEnv::evaluate (IndividualP ind) {
 	fitness->setValue(0);
 
 	int move = 0;
-	BitStringP bstring = boost::dynamic_pointer_cast<BitString::BitString> (ind->getGenotype(1));
+	BitStringP bstring = std::dynamic_pointer_cast<BitString::BitString> (ind->getGenotype(1));
 
 	for (int i =0; i < 3; i++){
 		move *= 2;

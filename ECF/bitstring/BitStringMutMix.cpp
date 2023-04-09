@@ -25,7 +25,7 @@ bool BitStringMutMix::initialize(StateP state)
 
 bool BitStringMutMix::mutate(GenotypeP gene)
 {
-	BitString* bitstr = (BitString*) (gene.get());
+	BitStringP bitstr = std::static_pointer_cast<BitString>(gene);
 
 	if(bitstr->bits.size() == 1)
 		return false;

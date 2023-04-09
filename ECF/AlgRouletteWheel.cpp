@@ -7,9 +7,9 @@ RouletteWheel :: RouletteWheel()
 {
 	name_ = "RouletteWheel";
 
-	selFitPropOp = static_cast<SelFitnessProportionalOpP> (new SelFitnessProportionalOp);
-	selRandomOp = static_cast<SelRandomOpP> (new SelRandomOp);
-	selBestOp = static_cast<SelBestOpP> (new SelBestOp);
+	selFitPropOp = std::make_shared<SelFitnessProportionalOp>();
+	selRandomOp = std::make_shared<SelRandomOp>();
+	selBestOp = std::make_shared<SelBestOp>();
 }
 
 

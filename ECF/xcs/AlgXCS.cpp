@@ -37,9 +37,9 @@ XCS::XCS()
 	name_ = "XCS";
 	
 	//TODO: izbacit randomOp i worstOp
-	selRandomOp = static_cast<SelectionOperatorP> (new SelRandomOp);
-	selFitPropOp = static_cast<SelectionOperatorP> (new SelFitnessProportionalOp);
-	selWorstOp = static_cast<SelectionOperatorP> (new SelWorstOp);
+	selRandomOp = std::make_shared<SelRandomOp>();
+	selFitPropOp = std::make_shared<SelFitnessProportionalOp>();
+	selWorstOp = std::make_shared<SelWorstOp>();
 
 	params = static_cast<XCSParamsP> ( new XCSParams(name_));
 }
@@ -51,7 +51,7 @@ void XCS::registerParameters(StateP state)
 	params->registerParams(state->getRegistry());
 	
 	//Defining aditional genotype used for storing classifier parameters
-	ClassifierParamsP params = static_cast<ClassifierParamsP> (new ClassifierParams(0,0,0));
+	ClassifierParamsP params = std::make_shared<ClassifierParams>(0,0,0);
 	state->addGenotype(params);
 	
 }
@@ -69,13 +69,13 @@ bool XCS::initialize(StateP state)
 
 	time = 0;
 
-	ClassifierParamsP clParams = static_cast<ClassifierParamsP> (new ClassifierParams(0,0,0));
+	ClassifierParamsP clParams = std::make_shared<ClassifierParams>(0,0,0);
 	clParams->setGenotypeId(3);
 	clParams->initialize(state);
 	params->initF_ = clParams->F_;
 
 	//Environment initialization
-	environment = boost::dynamic_pointer_cast<Environment> (evalOp_);
+	environment = std::dynamic_pointer_cast<Environment> (evalOp_);
 	
 	if (!environment->checkState(state)) {
 		throw ("");
@@ -139,7 +139,7 @@ bool XCS::advanceGeneration(StateP state, DemeP deme) {
 
 #ifdef XCS_DEBUG
 		std::cout << "Input value: ";
-		Classifier::printBitString(boost::dynamic_pointer_cast<BitString::BitString> (input));
+		Classifier::printBitString(std::dynamic_pointer_cast<BitString::BitString> (input));
 		std::cout << std::endl;
 #endif
 		//Generate match set [M]
@@ -170,7 +170,7 @@ bool XCS::advanceGeneration(StateP state, DemeP deme) {
 #endif
 
 		//executing selected action
-		IndividualP ind = static_cast<IndividualP> (new Individual);
+		IndividualP ind = std::make_shared<Individual>();
 		ind->push_back(input);
 		ind->push_back(actionSet[0]->getAction());
 		
@@ -254,10 +254,9 @@ std::set<int> XCS::getActionsFromMs (std::vector<ClassifierP> matchSet){
 //and inserts it in populationSet and deme
 ClassifierP XCS::cover (StateP state, DemeP deme, GenotypeP input, std::vector<ClassifierP> matchSet){
 	
-	IndividualP newInd = static_cast<IndividualP> (new Individual(state));
+	IndividualP newInd = std::make_shared<Individual>(state);
 	
-	ClassifierP newClassifier = static_cast<ClassifierP> (new 
-		Classifier (params,time, newInd, state));
+	ClassifierP newClassifier = std::make_shared<Classifier>(params,time, newInd, state);
 	
 	//classifier must match input so that it can be added in [M]
 	newClassifier->cover(getActionsFromMs(matchSet), input, state);
@@ -424,7 +423,7 @@ void XCS::runGA(std::vector<ClassifierP> actionSet, GenotypeP genInput, DemeP de
 
 	for (int i = 0; i < 2; ++i) {
 
-		clChild[i] = static_cast<ClassifierP> (new Classifier(clParent[i]));
+		clChild[i] = std::make_shared<Classifier>(clParent[i]);
 
 		clChild[i]->setNumerosity(1);
 		clChild[i]->setExperience(0);

@@ -22,9 +22,9 @@ bool PermutationCrsOBX::initialize(StateP state)
 
 bool PermutationCrsOBX::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-	Permutation* p1 = (Permutation*) (gen1.get());
-	Permutation* p2 = (Permutation*) (gen2.get());
-	Permutation* ch = (Permutation*) (child.get());
+	PermutationP p1 = std::static_pointer_cast<Permutation>(gen1);
+	PermutationP p2 = std::static_pointer_cast<Permutation>(gen2);
+	PermutationP ch = std::static_pointer_cast<Permutation>(child);
 
 	std::vector<int> selectedNum;
 	std::map<int, int> numSelected;
@@ -37,13 +37,13 @@ bool PermutationCrsOBX::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 
 	for (int i = 0; i < (int) selectedNum.size(); i++) {  // izaberi brojeve za polje
 		index = 0;
-		while (numSelected[p1->variables[index]]) {  // naði prvi ispravni index
+		while (numSelected[p1->variables[index]]) {  // naï¿½i prvi ispravni index
 		  index++;
 	}
 
 	selectedIndex = state_->getRandomizer()->getRandomInteger(p1->getSize()- i);
 	currentIndex = 0;
-	while ((index <  (int) p1->getSize()) && (currentIndex != selectedIndex)) {  // naði izabrani broj
+	while ((index <  (int) p1->getSize()) && (currentIndex != selectedIndex)) {  // naï¿½i izabrani broj
 	  index++;
 	  if (!numSelected[p1->variables[index]]) {
 		currentIndex++;

@@ -24,7 +24,7 @@ public:
 	
 };
 
-typedef boost::shared_ptr<SeqObjMazeEnv> SeqObjMazeEnvP;
+typedef std::shared_ptr<SeqObjMazeEnv> SeqObjMazeEnvP;
 
 SeqObjMazeEnv::SeqObjMazeEnv(StateP s) : MazeEnv(s){
 	
@@ -49,7 +49,7 @@ GenotypeP SeqObjMazeEnv::getInput() {
 	}
 #endif
 
-	input = boost::dynamic_pointer_cast<BitString::BitString> (MazeEnv::getInput());
+	input = std::dynamic_pointer_cast<BitString::BitString> (MazeEnv::getInput());
 	input->bits[24] = keyVisited;
 
 	if (displayStatEvent) displayStatEvent("Getting new input from environment");

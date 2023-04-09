@@ -21,7 +21,7 @@ bool FloatingPointMutSimple::initialize(StateP state)
 
 bool FloatingPointMutSimple::mutate(GenotypeP gene)
 {
-	FloatingPoint* FP = (FloatingPoint*) (gene.get());
+	FloatingPointP FP = std::static_pointer_cast<FloatingPoint>(gene);
 
 	uint dimension = state_->getRandomizer()->getRandomInteger((uint) FP->realValue.size());
 	FP->realValue[dimension] = state_->getRandomizer()->getRandomDouble() * (FP->getUBound() - FP->getLBound()) + FP->getLBound();

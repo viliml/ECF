@@ -9,9 +9,9 @@ public:
 	FitnessP evaluate(IndividualP individual)
 	{
 		// stvori novi MOFitness u kojega cemo staviti nekoliko osnovnih Fitness objekata
-		MOFitnessP fitness = static_cast<MOFitnessP> (new MOFitness);
+		MOFitnessP fitness = std::make_shared<MOFitness>();
 
-		FloatingPointP gen = boost::static_pointer_cast<FloatingPoint::FloatingPoint> (individual->getGenotype());
+		FloatingPointP gen = std::static_pointer_cast<FloatingPoint::FloatingPoint> (individual->getGenotype());
 		// FloatingPoint::FloatingPoint* gen = static_cast<FloatingPoint::FloatingPoint*> (individual->getGenotype().get());
 
 		

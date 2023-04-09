@@ -22,9 +22,9 @@ bool PermutationCrsPBX::initialize(StateP state)
 	
 bool PermutationCrsPBX::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-	Permutation* p1 = (Permutation*) (gen1.get());
-	Permutation* p2 = (Permutation*) (gen2.get());
-	Permutation* ch = (Permutation*) (child.get());
+	PermutationP p1 = std::static_pointer_cast<Permutation>(gen1);
+	PermutationP p2 = std::static_pointer_cast<Permutation>(gen2);
+	PermutationP ch = std::static_pointer_cast<Permutation>(child);
 
 	// storage of elements copied into child (true ==> copied)
 	std::vector<bool> taged;

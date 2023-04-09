@@ -5,15 +5,15 @@
 bool Deme::initialize(StateP state)
 {
 	for(uint i = 0; i < nIndividuals_; i++) {
-		this->push_back(static_cast<IndividualP> (new Individual));
+		this->push_back(std::make_shared<Individual>());
 		this->back()->index = (unsigned int) this->size() - 1;
 		this->back()->initialize(state);
 	}
 
-	hof_ = static_cast<HallOfFameP> (new HallOfFame);
+	hof_ = std::make_shared<HallOfFame>();
 	hof_->initialize(state);
 
-	stats_ = static_cast<StatCalcP> (new StatCalc);
+	stats_ = std::make_shared<StatCalc>();
 	stats_->initialize(state);
 
 	return true;

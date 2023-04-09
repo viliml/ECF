@@ -20,7 +20,7 @@ public:
 	bool isParallel()
 	{	return true;	}
 };
-typedef boost::shared_ptr<ParallelAlgorithm> ParallelAlgorithmP;
+typedef std::shared_ptr<ParallelAlgorithm> ParallelAlgorithmP;
 
 #endif // ParallelAlgorithm_h
 

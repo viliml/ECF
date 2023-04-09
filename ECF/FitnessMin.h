@@ -15,9 +15,9 @@ public:
 
 	bool isBetterThan(FitnessP other);
 	void write(XMLNode&);
-	FitnessMin* copy();
+	FitnessP copy() override;
 };
-typedef boost::shared_ptr<FitnessMin> FitnessMinP;
+typedef std::shared_ptr<FitnessMin> FitnessMinP;
 
 #endif /* FITNESSMIN_H_ */
 

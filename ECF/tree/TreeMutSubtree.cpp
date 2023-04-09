@@ -23,7 +23,7 @@ bool TreeMutSubtree::initialize(StateP state)
 
 bool TreeMutSubtree::mutate(GenotypeP gene)
 {
-	Tree* tree = (Tree*) (gene.get());
+	TreeP tree = std::static_pointer_cast<Tree>(gene);
 
 	// try to select random node in tree which is not a terminal and which is not on maxDepth
 	// this is a size-fair operator (depth condition)
@@ -44,7 +44,7 @@ bool TreeMutSubtree::mutate(GenotypeP gene)
 	}
 
 	// first of all, make a copy of tree and clear the original
-	Tree* copyTree = tree->copy();
+	TreeP copyTree = std::static_pointer_cast<Tree>(tree->copy());
 	tree->clear();
 
 	std::stringstream log;
@@ -54,7 +54,7 @@ bool TreeMutSubtree::mutate(GenotypeP gene)
 
 	// copy all nodes before chosen subtree to original
 	for( ; i < chosenNode; i++) {
-		NodeP node = static_cast<NodeP> (new Node(copyTree->at(i)->primitive_));
+		NodeP node = std::make_shared<Node>(copyTree->at(i)->primitive_);
 		tree->addNode(node);
 	}
 
@@ -66,7 +66,7 @@ bool TreeMutSubtree::mutate(GenotypeP gene)
 
 	// generate new subtree with same primitives as original tree
 	// maxDepth for that new tree is original tree->maxDepth_ - chosenNodeDepth
-	Tree* newTree = tree->copy();
+	TreeP newTree = std::static_pointer_cast<Tree>(tree->copy());
 	newTree->clear();
 	newTree->initMinDepth_ = 0;
 	newTree->initMaxDepth_ = copyTree->maxDepth_ - chosenNodeDepth;
@@ -79,7 +79,7 @@ bool TreeMutSubtree::mutate(GenotypeP gene)
 	log << ", newSubtree = ";
 	// copy all nodes from newTree to tree
 	for(uint j = 0; j < newTree->size(); j++) {
-		NodeP node = static_cast<NodeP> (new Node(newTree->at(j)->primitive_));
+		NodeP node = std::make_shared<Node>(newTree->at(j)->primitive_);
 		tree->addNode(node);
 		log << node->primitive_->getName() << " ";
 	}
@@ -87,13 +87,11 @@ bool TreeMutSubtree::mutate(GenotypeP gene)
 
 	// copy all nodes after chosen subtree to original
 	for( ; i < copyTree->size(); i++) {
-		NodeP node = static_cast<NodeP> (new Node(copyTree->at(i)->primitive_));
+		NodeP node = std::make_shared<Node>(copyTree->at(i)->primitive_);
 		tree->addNode(node);
 	}
 
 	tree->update();
-	delete copyTree;
-	delete newTree;
 
 	ECF_LOG(state_, 5, log.str());
 

@@ -24,6 +24,6 @@ protected:
 
 	IndividualP performSingleTournament(DemeP deme);
 };
-typedef boost::shared_ptr<AlgAEliGpea> AlgAEliGpeaP;
+typedef std::shared_ptr<AlgAEliGpea> AlgAEliGpeaP;
 
 #endif // AlgAEliGPEA_h

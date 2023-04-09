@@ -44,7 +44,7 @@ namespace cart
 
 	};	
 
-	typedef boost::shared_ptr<FunctionSet> FunctionSetP;
+	typedef std::shared_ptr<FunctionSet> FunctionSetP;
 }
 
 

@@ -21,7 +21,7 @@ bool PermutationMutToggle::initialize(StateP state)
 
 bool PermutationMutToggle::mutate(GenotypeP gene)
 {
-	Permutation* perm = (Permutation*) (gene.get());
+	PermutationP perm = std::static_pointer_cast<Permutation>(gene);
 
 	int ind1 = state_->getRandomizer()->getRandomInteger(perm->getSize());
 	int ind2 = state_->getRandomizer()->getRandomInteger(perm->getSize());

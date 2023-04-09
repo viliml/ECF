@@ -23,7 +23,7 @@ bool TreeMutPermutation::initialize(StateP state)
 
 bool TreeMutPermutation::mutate(GenotypeP gene)
 {
-	Tree* tree = (Tree*) (gene.get());
+	TreeP tree = std::static_pointer_cast<Tree>(gene);
 
 	// try to select a node with >1 args
 	uint iNode, nArgs;

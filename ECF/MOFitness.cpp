@@ -4,7 +4,7 @@
 
 bool MOFitness::isBetterThan(FitnessP other)
 {
-	MOFitnessP p = boost::static_pointer_cast<MOFitness> (other);
+	MOFitnessP p = std::static_pointer_cast<MOFitness> (other);
 	uint objCount = (uint) p->size();
 
 	for (uint i = 0; i<objCount; i++) {
@@ -24,12 +24,12 @@ bool MOFitness::isBetterThan(FitnessP other)
 	return true;
 }
 
-MOFitness* MOFitness::copy()
+FitnessP MOFitness::copy()
 {
-	MOFitness *newObject = new MOFitness(*this);
+	auto newObject = std::make_shared<MOFitness>(*this);
 	// copy individual Fitness objects from the original
 	for(int i = 0; i < (int) this->size(); i++) {
-		(*newObject)[i] = (FitnessP) ((*this)[i]->copy());
+		(*newObject)[i] = (*this)[i]->copy();
 	}
 	newObject->rank = this->rank;
 	newObject->nc = this->nc;

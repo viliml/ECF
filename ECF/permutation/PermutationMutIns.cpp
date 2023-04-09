@@ -21,9 +21,9 @@ bool PermutationMutIns::initialize(StateP state)
 
 bool PermutationMutIns::mutate(GenotypeP gene)
 {
-	Permutation* perm = (Permutation*) (gene.get());
+	PermutationP perm = std::static_pointer_cast<Permutation>(gene);
 
-	//navjeæi indeks za prvi element insert mutacije
+	//navjeï¿½i indeks za prvi element insert mutacije
 	//mora biti maksimalno predzadnji u nizu
 	int ind1 = state_->getRandomizer()->getRandomInteger(perm->getSize() - 1);
 	int ind2 = state_->getRandomizer()->getRandomInteger(ind1, (int) perm->getSize() - 1);

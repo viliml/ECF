@@ -5,21 +5,25 @@ project(GPSymbReg)
 #set (BOOST_ROOT "C:/Program Files/boost_1_74_0")
 
 find_package(Boost)
-if(Boost_FOUND)
+if (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
-endif()
+endif ()
 
 set(SOURCE_FILES
-    main.cpp
-    SymbRegEvalOp.cpp
-    SymbRegEvalOp.h)
+        main.cpp
+        SymbRegEvalOp.cpp
+        SymbRegEvalOpTree.cpp
+        utility/expression_evaluation.cpp
+        utility/fileparser.cpp
+        utility/measures.cpp
+        utility/utility.cpp)
 
 include_directories(../../)
 add_executable(GPSymbReg ${SOURCE_FILES})
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_link_libraries(GPSymbReg ${CMAKE_CURRENT_SOURCE_DIR}/../../debug/libECF.a)
-endif()
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
+endif ()
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
     target_link_libraries(GPSymbReg ${CMAKE_CURRENT_SOURCE_DIR}/../../release/libECF.a)
-endif()
+endif ()

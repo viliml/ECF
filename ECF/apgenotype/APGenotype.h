@@ -77,7 +77,7 @@ public:
 	void buildTree(std::vector<uint> indices, uint current, uint depth);
 
 	std::vector<uint> getDiscreteIndices();
-	Tree* convertToPhenotype();
+	TreeP convertToPhenotype();
 
 	/// return lower bound of the defined interval
 	double getLBound()
@@ -91,43 +91,44 @@ public:
 		return maxValue_;
 	}
 
-	APGenotype* copy()
+	GenotypeP copy()
 	{
-		APGenotype *newObject = new APGenotype(*this);
-		return newObject;
+		return std::make_shared<APGenotype>(*this);
 	}
 
 	/// return usable crx operators
 	std::vector<CrossoverOpP> getCrossoverOp()
 	{
 		std::vector<CrossoverOpP> crx;
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPoint::FloatingPointCrsOnePoint));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPoint::FloatingPointCrsArithmetic));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPoint::FloatingPointCrsDiscrete));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPoint::FloatingPointCrsArithmeticSimple));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPoint::FloatingPointCrsArithmeticSingle));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPoint::FloatingPointCrsAverage));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPoint::FloatingPointCrsFlat));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPoint::FloatingPointCrsHeuristic));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPoint::FloatingPointCrsSbx));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPoint::FloatingPointCrsBga));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPoint::FloatingPointCrsLocal));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPoint::FloatingPointCrsBlxAlpha));
-		crx.push_back(static_cast<CrossoverOpP> (new FloatingPoint::FloatingPointCrsBlxAlphaBeta));
+		crx.push_back(std::make_shared<FloatingPoint::FloatingPointCrsOnePoint>());
+		crx.push_back(std::make_shared<FloatingPoint::FloatingPointCrsArithmetic>());
+		crx.push_back(std::make_shared<FloatingPoint::FloatingPointCrsDiscrete>());
+		crx.push_back(std::make_shared<FloatingPoint::FloatingPointCrsArithmeticSimple>());
+		crx.push_back(std::make_shared<FloatingPoint::FloatingPointCrsArithmeticSingle>());
+		crx.push_back(std::make_shared<FloatingPoint::FloatingPointCrsAverage>());
+		crx.push_back(std::make_shared<FloatingPoint::FloatingPointCrsFlat>());
+		crx.push_back(std::make_shared<FloatingPoint::FloatingPointCrsHeuristic>());
+		crx.push_back(std::make_shared<FloatingPoint::FloatingPointCrsSbx>());
+		crx.push_back(std::make_shared<FloatingPoint::FloatingPointCrsBga>());
+		crx.push_back(std::make_shared<FloatingPoint::FloatingPointCrsLocal>());
+		crx.push_back(std::make_shared<FloatingPoint::FloatingPointCrsBlxAlpha>());
+		crx.push_back(std::make_shared<FloatingPoint::FloatingPointCrsBlxAlphaBeta>());
 		// control operator - not to be used in optimization
-		//crx.push_back(static_cast<CrossoverOpP> (new FloatingPointCrsRandom));
+		//crx.push_back(std::make_shared<FloatingPointCrsRandom>());
 		return crx;
 	}
 
 	/// return usable mut operators
-	std::vector<MutationOpP> getMutationOp()
+	std::vector<MutationOpP> getMutationOp() override
 	{
 		std::vector<MutationOpP> mut;
-		mut.push_back(static_cast<MutationOpP> (new FloatingPoint::FloatingPointMutSimple));
+		mut.push_back(std::make_shared<FloatingPoint::FloatingPointMutSimple>());
 		return mut;
 	}
 
-	void setTerminalValue(Tree* tree, std::string name, void* value);
+    void setTerminalValue(const std::string &name, void* value);
+    void setTerminalValue(uint name, void* value);
+    uint getTerminalIndex(const std::string &name);
 
 	void write(XMLNode& xFloatingPoint);
 	void read(XMLNode& xFloatingPoint);
@@ -135,5 +136,5 @@ public:
 
 }
 
-typedef boost::shared_ptr<Tree::APGenotype> APGenotypeP;
+typedef std::shared_ptr<Tree::APGenotype> APGenotypeP;
 #endif

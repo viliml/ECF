@@ -89,9 +89,9 @@ class IndexBackedPermutation {
 
 bool PermutationCrsUPMX::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
 {
-	Permutation* p1 = (Permutation*) (gen1.get());
-	Permutation* p2 = (Permutation*) (gen2.get());
-	Permutation* ch = (Permutation*) (child.get());
+	PermutationP p1 = std::static_pointer_cast<Permutation>(gen1);
+	PermutationP p2 = std::static_pointer_cast<Permutation>(gen2);
+	PermutationP ch = std::static_pointer_cast<Permutation>(child);
 
     int capacity = (int) p1->getSize();
 
@@ -135,7 +135,7 @@ bool PermutationCrsUPMX::mate(GenotypeP gen1, GenotypeP gen2, GenotypeP child)
         int pos2 = idxP2.getIndexForValue(value1);
 
         // Now swap in child elements at locations pos1 and pos2:
-        idxCh.swap(ch, pos1, pos2);
+        idxCh.swap(ch.get(), pos1, pos2);
 
         // If pos2 is among currently legal for picking, forbid it too:
         if(idxLegal.getIndexForValue(pos2) < legalsCount) {

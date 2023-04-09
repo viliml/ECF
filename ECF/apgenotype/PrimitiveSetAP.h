@@ -1,6 +1,7 @@
 #ifndef PrimitiveSetAP_h
 #define PrimitiveSetAP_h
 #include <vector>
+#include <unordered_map>
 #include "../ECF_base.h"
 #include "../tree/Primitive.h"
 
@@ -25,13 +26,18 @@ namespace Tree
 		bool initialize(StateP state);
 
 		//void addFunction(PrimitiveP functionPrimitive);
-		bool addFunction(std::string name);
-		void addTerminal(PrimitiveP terminalPrimitive);
+		bool addFunction(const std::string& name);
+		void addTerminal(const PrimitiveP& terminalPrimitive);
 
-		PrimitiveP getTerminalByName(std::string name);
-		PrimitiveP getGFSOneByName(std::string name);
-		PrimitiveP getGFSTwoByName(std::string name);
-		PrimitiveP getPrimitiveByName(std::string name);
+        PrimitiveP getTerminalByName(const std::string &name);
+        PrimitiveP getGFSOneByName(const std::string &name);
+        PrimitiveP getGFSTwoByName(const std::string &name);
+        PrimitiveP getPrimitiveByName(const std::string &name);
+
+        int getTerminalIndex(const std::string &name);
+        int getGFSOneIndex(const std::string &name);
+        int getGFSTwoIndex(const std::string &name);
+        int getPrimitiveIndex(const std::string &name);
 
 		PrimitiveP getTerminalByIndex(uint index);
 		PrimitiveP getGFSOneByIndex(uint index);
@@ -44,25 +50,26 @@ namespace Tree
 		uint getTerminalSetSize();
 		uint getPrimitivesSize();
 
-		std::map <std::string, PrimitiveP> mAllPrimitives_;                 //!< map of all registered primitive functions
-		std::map <std::string, Primitives::terminal_type> mTypeNames_;
+		std::unordered_map <std::string, PrimitiveP> mAllPrimitives_;                 //!< map of all registered primitive functions
+		std::unordered_map <std::string, Primitives::terminal_type> mTypeNames_;
 
 	protected:
 		StateP state_;
 
 		std::vector<PrimitiveP> terminalSet_;                               //!< vector of active (actual used) terminals
-		std::map <std::string, PrimitiveP> mTerminalSet_;                   //!< map of active (actual used) terminals
-		std::vector<PrimitiveP> GFSOneSet_;                               //!< vector of active (actual used) functions
-		std::map <std::string, PrimitiveP> mGFSOneSet_;                   //!< map of active (actual used) functions
-		std::vector<PrimitiveP> GFSTwoSet_;                               //!< vector of active (actual used) functions
-		std::map <std::string, PrimitiveP> mGFSTwoSet_;                   //!< map of active (actual used) functions
+        std::unordered_map <std::string, PrimitiveP> mTerminalSet_;         //!< map of active (actual used) terminals
+        std::unordered_map <std::string, uint> iTerminalSet_;               //!< map of active (actual used) terminal indices
+		std::vector<PrimitiveP> GFSOneSet_;                                 //!< vector of active (actual used) functions
+		std::unordered_map <std::string, PrimitiveP> mGFSOneSet_;           //!< map of active (actual used) functions
+        std::unordered_map <std::string, uint> iGFSOneSet_;                 //!< map of active (actual used) function indices
+		std::vector<PrimitiveP> GFSTwoSet_;                                 //!< vector of active (actual used) functions
+		std::unordered_map <std::string, PrimitiveP> mGFSTwoSet_;           //!< map of active (actual used) functions
+        std::unordered_map <std::string, uint> iGFSTwoSet_;                 //!< map of active (actual used) function indices
 		std::vector<PrimitiveP> primitives_;                                //!< vector of active (actual used) primitives
-		std::map <std::string, PrimitiveP> mPrimitiveSet_;                  //!< map of active (actual used) primitives
+		std::unordered_map <std::string, PrimitiveP> mPrimitiveSet_;        //!< map of active (actual used) primitives
+        std::unordered_map <std::string, uint> iPrimitiveSet_;              //!< map of active (actual used) primitive indices
 	};
-	typedef boost::shared_ptr<PrimitiveSetAP> PrimitiveSetAPP;
-
-	typedef std::map <std::string, PrimitiveP>::iterator prim_iter;
-	typedef std::map <std::string, Primitives::terminal_type>::iterator type_iter;
+	typedef std::shared_ptr<PrimitiveSetAP> PrimitiveSetAPP;
 
 }
 #endif
